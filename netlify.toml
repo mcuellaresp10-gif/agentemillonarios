@@ -1,0 +1,7 @@
+# Frontend en Netlify. La API corre en Render (u otro) — ver DEPLOY.md
+[build]
+  command = "npm run build:netlify"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"

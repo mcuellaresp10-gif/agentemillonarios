@@ -1,0 +1,3 @@
+# Beta privada — evitar indexación mientras se recoge feedback
+User-agent: *
+Disallow: /
