@@ -1,4 +1,5 @@
 import 'dotenv/config'
+import fs from 'fs'
 import express from 'express'
 import cookieParser from 'cookie-parser'
 import path from 'path'
@@ -58,14 +59,26 @@ app.post('/api/ai/analyze', aiRateLimiter, analyzeHandler)
 app.get('/api/market/status', marketStatusHandler)
 app.get('/api/market/player', marketRateLimiter, playerMarketHandler)
 
-const serveStatic =
-  isProduction() && process.env.API_ONLY !== 'true'
+const distPath = path.join(__dirname, '../dist')
+const indexHtml = path.join(distPath, 'index.html')
+const hasFrontend = fs.existsSync(indexHtml)
+const serveStatic = process.env.API_ONLY !== 'true' && hasFrontend
 
 if (serveStatic) {
-  const distPath = path.join(__dirname, '../dist')
-  app.use(express.static(distPath))
-  app.get(/^(?!\/api).*/, (_req, res) => {
-    res.sendFile(path.join(distPath, 'index.html'))
+  app.use(express.static(distPath, { index: 'index.html', fallthrough: true }))
+  // Express 5: wildcard con nombre (regex antigua no cubre bien /)
+  app.get('/{*splat}', (req, res, next) => {
+    if (req.path.startsWith('/api')) return next()
+    res.sendFile(indexHtml, (err) => (err ? next(err) : undefined))
+  })
+} else if (isProduction()) {
+  app.get('/', (_req, res) => {
+    res.status(503).json({
+      error: 'Frontend no disponible',
+      hint: hasFrontend
+        ? 'Quita API_ONLY=true en las variables de entorno'
+        : 'El build no generó dist/index.html. Revisa el Build Command en Render.',
+    })
   })
 }
 
@@ -73,6 +86,13 @@ app.listen(PORT, () => {
   const apify = (process.env.APIFY_TOKEN ?? '').trim()
   const mode = serveStatic ? 'full' : process.env.API_ONLY === 'true' ? 'api-only' : 'dev'
   console.log(`API server http://localhost:${PORT} (${mode})`)
+  if (serveStatic) {
+    console.log(`[static] Sirviendo ${distPath}`)
+  } else if (isProduction()) {
+    console.warn(
+      `[static] Sin frontend: API_ONLY=${process.env.API_ONLY ?? 'false'}, dist=${hasFrontend}`,
+    )
+  }
   console.log(
     apify
       ? '[market] Transfermarkt vía Apify: configurado'
