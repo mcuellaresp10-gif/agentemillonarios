@@ -5,6 +5,8 @@ import { getPlayersStatistics } from '@/services/apiFootball'
 import { useMillonariosPlayers } from '@/hooks/useJugadores'
 import { usePlayerMatchHistory } from '@/hooks/usePlayerMatchHistory'
 import { ComparativaJugador } from '@/components/Scouting/ComparativaJugador'
+import { GraficoRadarComparativa } from '@/components/Scouting/GraficoRadarComparativa'
+import { GraficoRedComparativa } from '@/components/Scouting/GraficoRedComparativa'
 import { GeneradorAnalisisIA } from '@/components/Analisis/GeneradorAnalisisIA'
 import { MapaPosicionCampo } from '@/components/shared/MapaPosicionCampo'
 import { CuadriculaStats } from '@/components/shared/CuadriculaStats'
@@ -34,6 +36,7 @@ import type { SeasonKey } from '@/types/scoutSnapshot'
 import type { PlayerSeasonStats } from '@/types'
 import { posicionEnEspanol } from '@/utils/positions'
 import { ratingColor } from '@/utils/calculators'
+import { comparePlayers, comparisonSummaryForAI } from '@/utils/playerComparison'
 import { cn } from '@/lib/utils'
 
 function leagueMeta(leagueId: number) {
@@ -104,6 +107,11 @@ export default function ScoutingDetalle() {
   const actual = useMemo(
     () => millPlayers?.find((p) => p.playerId === compareId) ?? null,
     [millPlayers, compareId],
+  )
+
+  const comparison = useMemo(
+    () => (candidato && actual ? comparePlayers(candidato, actual) : null),
+    [candidato, actual],
   )
 
   const heatPositions = useMemo(() => {
@@ -252,8 +260,24 @@ export default function ScoutingDetalle() {
       <ComparativaJugador
         candidato={candidato}
         actual={actual}
+        comparison={comparison}
         statsSourceLabel={sourceBanner || undefined}
       />
+
+      {actual && comparison && (
+        <div className="grid gap-6 lg:grid-cols-2">
+          <GraficoRadarComparativa
+            candidato={candidato}
+            actual={actual}
+            comparison={comparison}
+          />
+          <GraficoRedComparativa
+            candidato={candidato}
+            actual={actual}
+            comparison={comparison}
+          />
+        </div>
+      )}
 
       <section>
         <h2 className="text-lg font-semibold text-mill-blue mb-3">
@@ -265,7 +289,8 @@ export default function ScoutingDetalle() {
           contexto={{
             candidato,
             millonarios_actual: actual,
-            fuente: 'Scout DB + API-Football',
+            comparativa: comparison ? comparisonSummaryForAI(comparison) : null,
+            fuente: 'Scout DB + snapshot local',
           }}
         />
       </section>
