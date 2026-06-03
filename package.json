@@ -7,10 +7,12 @@
     "dev": "concurrently -n api,web -c blue,green \"tsx watch server/index.ts\" \"vite\"",
     "dev:web": "vite",
     "dev:api": "tsx watch server/index.ts",
-    "build": "tsc -b && vite build",
+    "build": "vite build",
+    "typecheck": "tsc -b",
     "build:netlify": "npm run build && node scripts/write-netlify-redirects.mjs",
     "start": "tsx server/index.ts",
     "start:api": "tsx server/index.ts --prod",
+    "sync:scout": "tsx --tsconfig tsconfig.app.json scripts/sync-scout-snapshot.ts",
     "lint": "eslint .",
     "preview": "npm run build && npm run start:prod",
     "start:prod": "tsx server/index.ts --prod"
@@ -39,6 +41,7 @@
     "recharts": "^3.8.1",
     "sonner": "^2.0.7",
     "tailwind-merge": "^3.6.0",
+    "tsx": "^4.22.3",
     "zustand": "^5.0.14"
   },
   "devDependencies": {
@@ -58,7 +61,6 @@
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.6.0",
     "tailwindcss": "^4.3.0",
-    "tsx": "^4.22.3",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.59.2",
     "vite": "^8.0.12"

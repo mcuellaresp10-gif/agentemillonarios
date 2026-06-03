@@ -1,8 +1,10 @@
-export const TEAM_MILLONARIOS = Number(import.meta.env.VITE_TEAM_ID) || 1125
+import { readEnv, readEnvNumber } from '@/config/env'
+
+export const TEAM_MILLONARIOS = readEnvNumber('VITE_TEAM_ID', 1125)
 /** Partidos H2H a cargar (×2 requests/partido para goles+alineaciones ≈ 40 req/rival) */
 export const H2H_FIXTURES_LAST = 20
-export const SEASON = Number(import.meta.env.VITE_DEFAULT_SEASON) || 2026
-export const TIMEZONE = import.meta.env.VITE_TIMEZONE || 'America/Bogota'
+export const SEASON = readEnvNumber('VITE_DEFAULT_SEASON', 2026)
+export const TIMEZONE = readEnv('VITE_TIMEZONE', 'America/Bogota')
 
 export const LEAGUE_LIGA = 239
 export const LEAGUE_COLOMBIA_B = 240
@@ -89,7 +91,7 @@ export const COLORS = {
 } as const
 
 export const CACHE_DURATION_MS =
-  Number(import.meta.env.VITE_CACHE_DURATION) || 14400000
+  readEnvNumber('VITE_CACHE_DURATION', 14400000)
 
 export const SCOUT_POSITIONS = [
   'Portero',

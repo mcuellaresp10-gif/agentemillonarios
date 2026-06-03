@@ -7,6 +7,8 @@ import { PerfilReferenciaReemplazo } from '@/components/Scouting/PerfilReferenci
 import type { ScoutFilters } from '@/utils/filters'
 import type { PlayerSeasonStats, ScoutTeam } from '@/types'
 import { SCOUT_LEAGUES, type ScoutLeagueConfig } from '@/config/constants'
+import { SEASON_KEYS, seasonKeyLabel } from '@/config/scoutSnapshotSeasons'
+import type { SeasonKey } from '@/types/scoutSnapshot'
 
 export type ScoutSearchMode = 'equipo' | 'reemplazo' | 'colombianos-exterior'
 
@@ -24,6 +26,8 @@ export function BuscadorRefuerzos({
   loadingPool,
   leagues = [...SCOUT_LEAGUES],
   poolTeamCount,
+  seasonKey,
+  onSeasonKeyChange,
 }: {
   mode: ScoutSearchMode
   onModeChange: (m: ScoutSearchMode) => void
@@ -38,6 +42,8 @@ export function BuscadorRefuerzos({
   onClear: () => void
   loadingPool?: boolean
   poolTeamCount?: number
+  seasonKey: SeasonKey
+  onSeasonKeyChange: (key: SeasonKey) => void
 }) {
   const [showAdvanced, setShowAdvanced] = useState(false)
   const replaceTarget = millonariosPlayers.find((p) => p.playerId === replacePlayerId)
@@ -120,6 +126,19 @@ export function BuscadorRefuerzos({
       )}
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div>
+          <label className="text-xs text-slate-500 block mb-1">Temporada</label>
+          <Select
+            value={seasonKey}
+            onChange={(e) => onSeasonKeyChange(e.target.value as SeasonKey)}
+          >
+            {SEASON_KEYS.map((key) => (
+              <option key={key} value={key}>
+                {seasonKeyLabel(key)}
+              </option>
+            ))}
+          </Select>
+        </div>
         <div>
           <label className="text-xs text-slate-500 block mb-1">Liga / competición</label>
           <Select

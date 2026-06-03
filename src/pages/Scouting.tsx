@@ -32,14 +32,21 @@ import {
   TEAM_MILLONARIOS,
   type ScoutLeagueConfig,
 } from '@/config/constants'
+import { defaultSeasonKey } from '@/config/scoutSnapshotSeasons'
 import type { ScoutTeam } from '@/types'
+import type { SeasonKey } from '@/types/scoutSnapshot'
 import { useCandidatesEnrichment } from '@/hooks/useCandidatesEnrichment'
+import { useSnapshotGeneratedAt } from '@/hooks/useSnapshotMeta'
+import { format } from 'date-fns'
+import { es } from 'date-fns/locale'
 
 export default function Scouting() {
-  const { data: scoutTeams, isLoading: loadingScoutTeams } = useScoutTeams()
+  const [seasonKey, setSeasonKey] = useState<SeasonKey>(defaultSeasonKey())
+  const { data: scoutTeams, isLoading: loadingScoutTeams } = useScoutTeams(seasonKey)
   const { data: exteriorTeams, isLoading: loadingExteriorTeams } =
-    useColombianosExteriorTeams()
-  const { data: millPlayers } = useMillonariosPlayers()
+    useColombianosExteriorTeams(seasonKey)
+  const { data: millPlayers } = useMillonariosPlayers(seasonKey)
+  const { data: snapshotGeneratedAt } = useSnapshotGeneratedAt()
   const [mode, setMode] = useState<ScoutSearchMode>('equipo')
   const [filters, setFilters] = useState<ScoutFilters>({})
   const [replacePlayerId, setReplacePlayerId] = useState<number | undefined>()
@@ -81,9 +88,10 @@ export default function Scouting() {
   const { data: teamPlayers, isLoading: loadingTeam, refetch } = useTeamPlayers(
     activeTeam?.id ?? 0,
     activeTeam,
+    seasonKey,
   )
   const { data: scoutPool, isLoading: loadingScoutPool, refetch: refetchScoutPool } =
-    useScoutPool(poolEntries, poolActive && mode === 'reemplazo')
+    useScoutPool(poolEntries, poolActive && mode === 'reemplazo', seasonKey)
   const {
     data: colombianosPool,
     isLoading: loadingColombianosPool,
@@ -91,6 +99,7 @@ export default function Scouting() {
   } = useColombianosExteriorPool(
     poolEntries,
     poolActive && isColombianosMode,
+    seasonKey,
   )
 
   const loadingPool = isColombianosMode ? loadingColombianosPool : loadingScoutPool
@@ -190,6 +199,17 @@ export default function Scouting() {
     }
   }
 
+  const handleSeasonChange = (key: SeasonKey) => {
+    setSeasonKey(key)
+    setSearched(false)
+    setActiveTeam(undefined)
+    setPoolActive(false)
+  }
+
+  const snapshotDateLabel = snapshotGeneratedAt
+    ? format(new Date(snapshotGeneratedAt), "d MMM yyyy", { locale: es })
+    : null
+
   const handleSearch = () => {
     if (mode === 'reemplazo') {
       if (!replacePlayerId) return
@@ -250,6 +270,12 @@ export default function Scouting() {
         <h1 className="text-4xl font-bold text-mill-blue">Scouting</h1>
         <p className="text-slate-500">
           Refuerzos regionales, reemplazos, colombianos en el exterior y búsqueda avanzada
+          {snapshotDateLabel && (
+            <span className="text-slate-400">
+              {' '}
+              · Datos de scouting del {snapshotDateLabel}
+            </span>
+          )}
         </p>
       </div>
       <BuscadorRefuerzos
@@ -268,6 +294,8 @@ export default function Scouting() {
         poolTeamCount={
           mode === 'reemplazo' || isColombianosMode ? poolEntries.length : undefined
         }
+        seasonKey={seasonKey}
+        onSeasonKeyChange={handleSeasonChange}
       />
       {mode === 'reemplazo' && !replacePlayerId && (
         <p className="text-sm text-slate-500">
@@ -279,7 +307,7 @@ export default function Scouting() {
         <p className="text-sm text-slate-500">
           Pulsa <strong>Buscar colombianos</strong> para cargar jugadores con nacionalidad
           Colombia en {COLOMBIANOS_EXTERIOR_LEAGUES.length} ligas del exterior (Europa, MLS,
-          México, CONMEBOL, etc.). La primera vez puede tardar varios minutos; queda en caché 4 h.
+          México, CONMEBOL, etc.).
         </p>
       )}
       {mode === 'equipo' && !searched && (
