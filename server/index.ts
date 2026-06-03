@@ -15,6 +15,8 @@ import {
   aiRateLimiter,
   marketRateLimiter,
   footballRateLimiter,
+  scoutReadRateLimiter,
+  scoutWriteRateLimiter,
   accessStatusHandler,
   accessGrantHandler,
   isProduction,
@@ -26,6 +28,15 @@ import {
   footballQuotaMiddleware,
   createFootballProxy,
 } from './middleware/footballProxy.js'
+import {
+  scoutTeamsHandler,
+  scoutPlayersHandler,
+  scoutPlayerHandler,
+  scoutPoolHandler,
+  scoutMillonariosHandler,
+  scoutFetchPlayerHandler,
+  scoutFetchTeamHandler,
+} from './routes/scoutDb.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const PORT = Number(process.env.PORT) || 3001
@@ -58,6 +69,14 @@ app.use(
 app.post('/api/ai/analyze', aiRateLimiter, analyzeHandler)
 app.get('/api/market/status', marketStatusHandler)
 app.get('/api/market/player', marketRateLimiter, playerMarketHandler)
+
+app.get('/api/scout/teams', scoutReadRateLimiter, scoutTeamsHandler)
+app.get('/api/scout/players', scoutReadRateLimiter, scoutPlayersHandler)
+app.get('/api/scout/player/:id', scoutReadRateLimiter, scoutPlayerHandler)
+app.get('/api/scout/pool', scoutReadRateLimiter, scoutPoolHandler)
+app.get('/api/scout/millonarios', scoutReadRateLimiter, scoutMillonariosHandler)
+app.post('/api/scout/fetch-player', scoutWriteRateLimiter, scoutFetchPlayerHandler)
+app.post('/api/scout/fetch-team', scoutWriteRateLimiter, scoutFetchTeamHandler)
 
 const distPath = path.join(__dirname, '../dist')
 const indexHtml = path.join(distPath, 'index.html')

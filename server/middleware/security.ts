@@ -134,6 +134,22 @@ export const footballRateLimiter = rateLimit({
   message: { error: 'Límite de consultas de datos alcanzado.' },
 })
 
+export const scoutReadRateLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 200,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Límite de consultas scout alcanzado.' },
+})
+
+export const scoutWriteRateLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000,
+  max: 30,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Límite de actualizaciones scout alcanzado (30/hora).' },
+})
+
 export function accessStatusHandler(_req: Request, res: Response): void {
   res.json({
     required: isAccessCodeRequired(),

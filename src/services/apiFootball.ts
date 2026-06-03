@@ -17,7 +17,7 @@ import {
 } from './mappers'
 import type { LastTransfer } from './mappers'
 import { mergePlayerStatistics } from './playerMerge'
-import type { ApiFixtureRaw, ApiResponse, ApiTeam, Fixture } from '@/types'
+import type { ApiFixtureRaw, ApiResponse, ApiTeam, Fixture, PlayerSeasonStats } from '@/types'
 
 const client = axios.create({
   baseURL: '/api/football',
@@ -125,6 +125,20 @@ export async function getPlayersStatistics(team = TEAM_MILLONARIOS, season = SEA
     season,
   })
   return mergePlayerStatistics(mapPlayerStatistics(data))
+}
+
+export async function getPlayerStatisticsById(
+  playerId: number,
+  apiSeason: number,
+  teamId?: number,
+): Promise<PlayerSeasonStats[]> {
+  const data = await fetchApi<ApiResponse<unknown[]>>('/players', {
+    id: playerId,
+    season: apiSeason,
+  })
+  const rows = mapPlayerStatistics(data)
+  if (teamId == null) return rows
+  return rows.filter((r) => r.teamId === teamId || r.teamId === 0)
 }
 
 export async function getFixturePlayers(fixtureId: number, teamId: number) {

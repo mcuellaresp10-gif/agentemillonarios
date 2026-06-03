@@ -44,6 +44,25 @@ export function getApiSeason(leagueId: number, seasonKey: SeasonKey): number {
   return isEuropeanStyleLeague(leagueId) ? row.european : row.default
 }
 
+/** API seasons a fusionar por ventana lógica (jun 2024 – may 2026). */
+export function getApiSeasonsForWindow(
+  leagueId: number,
+  seasonKey: SeasonKey,
+): number[] {
+  if (seasonKey === '2024-2025') {
+    return isEuropeanStyleLeague(leagueId) ? [2024] : [2024, 2025]
+  }
+  const seasons = isEuropeanStyleLeague(leagueId) ? [2025] : [2025, 2026]
+  const override = LEAGUE_API_SEASON_OVERRIDE[leagueId]?.[seasonKey]
+  if (override != null && !seasons.includes(override)) {
+    return [...new Set([...seasons, override])].sort((a, b) => a - b)
+  }
+  return seasons
+}
+
+/** Temporadas API para bulk histórico completo (jun 2024 – may 2026). */
+export const HISTORICAL_API_SEASONS = [2024, 2025, 2026] as const
+
 /** Todas las ligas únicas para el snapshot (SCOUT + exterior, deduplicadas por id). */
 export function getUniqueSnapshotLeagues(): ScoutLeagueConfig[] {
   const map = new Map<number, ScoutLeagueConfig>()

@@ -36,6 +36,7 @@ export function TablaScouting({
   showLeague = false,
   showValueColumns = false,
   enrichment,
+  seasonKey,
 }: {
   players: ScoutCandidate[]
   sortField: SortField
@@ -47,6 +48,7 @@ export function TablaScouting({
   showLeague?: boolean
   showValueColumns?: boolean
   enrichment?: Record<number, CandidateEnrichment>
+  seasonKey?: string
 }) {
   return (
     <div className="overflow-x-auto rounded-lg border bg-white">
@@ -104,7 +106,7 @@ export function TablaScouting({
             <tr key={`${p.playerId}-${p.teamId}`} className="border-b hover:bg-blue-50/50">
               <td className="px-3 py-2">
                 <Link
-                  to={`/scouting/${p.playerId}?team=${p.teamId}`}
+                  to={`/scouting/${p.playerId}?team=${p.teamId}&league=${p.leagueId ?? ''}&leagueLabel=${encodeURIComponent(p.leagueLabel ?? '')}${seasonKey ? `&seasonKey=${seasonKey}` : ''}`}
                   className="font-medium text-mill-blue hover:underline flex items-center gap-2"
                 >
                   <img

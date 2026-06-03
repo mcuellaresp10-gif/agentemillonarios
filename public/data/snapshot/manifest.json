@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-06-03T17:47:43.694Z",
+  "generatedAt": "2026-06-03T18:16:45.046Z",
   "seasonKeys": [
     "2024-2025",
     "2025-2026"
@@ -9,7 +9,7 @@
     {
       "leagueId": 78,
       "label": "Alemania — Bundesliga",
-      "short": "GER",
+      "short": "ALE",
       "seasonKey": "2024-2025",
       "apiSeason": 2024,
       "path": "leagues/78-2024-2025.json",
@@ -17,12 +17,32 @@
       "playerCount": 380
     },
     {
+      "leagueId": 78,
+      "label": "Alemania — Bundesliga",
+      "short": "ALE",
+      "seasonKey": "2025-2026",
+      "apiSeason": 2025,
+      "path": "leagues/78-2025-2026.json",
+      "teamCount": 19,
+      "playerCount": 380
+    },
+    {
       "leagueId": 307,
       "label": "Arabia Saudita — Pro League",
-      "short": "KSA",
+      "short": "ARA",
       "seasonKey": "2024-2025",
       "apiSeason": 2024,
       "path": "leagues/307-2024-2025.json",
+      "teamCount": 18,
+      "playerCount": 360
+    },
+    {
+      "leagueId": 307,
+      "label": "Arabia Saudita — Pro League",
+      "short": "ARA",
+      "seasonKey": "2025-2026",
+      "apiSeason": 2025,
+      "path": "leagues/307-2025-2026.json",
       "teamCount": 18,
       "playerCount": 360
     },
@@ -35,216 +55,6 @@
       "path": "leagues/128-2024-2025.json",
       "teamCount": 30,
       "playerCount": 600
-    },
-    {
-      "leagueId": 344,
-      "label": "Bolivia — División Profesional",
-      "short": "BOL",
-      "seasonKey": "2024-2025",
-      "apiSeason": 2025,
-      "path": "leagues/344-2024-2025.json",
-      "teamCount": 17,
-      "playerCount": 320
-    },
-    {
-      "leagueId": 71,
-      "label": "Brasil — Serie A",
-      "short": "BRA",
-      "seasonKey": "2024-2025",
-      "apiSeason": 2025,
-      "path": "leagues/71-2024-2025.json",
-      "teamCount": 20,
-      "playerCount": 400
-    },
-    {
-      "leagueId": 265,
-      "label": "Chile — Primera División",
-      "short": "CHI",
-      "seasonKey": "2024-2025",
-      "apiSeason": 2025,
-      "path": "leagues/265-2024-2025.json",
-      "teamCount": 16,
-      "playerCount": 320
-    },
-    {
-      "leagueId": 239,
-      "label": "Colombia — Liga BetPlay",
-      "short": "COL A",
-      "seasonKey": "2024-2025",
-      "apiSeason": 2025,
-      "path": "leagues/239-2024-2025.json",
-      "teamCount": 20,
-      "playerCount": 400
-    },
-    {
-      "leagueId": 240,
-      "label": "Colombia — Segunda división",
-      "short": "COL B",
-      "seasonKey": "2024-2025",
-      "apiSeason": 2025,
-      "path": "leagues/240-2024-2025.json",
-      "teamCount": 16,
-      "playerCount": 320
-    },
-    {
-      "leagueId": 242,
-      "label": "Ecuador — Liga Pro",
-      "short": "ECU",
-      "seasonKey": "2024-2025",
-      "apiSeason": 2025,
-      "path": "leagues/242-2024-2025.json",
-      "teamCount": 16,
-      "playerCount": 320
-    },
-    {
-      "leagueId": 140,
-      "label": "España — La Liga",
-      "short": "ESP",
-      "seasonKey": "2024-2025",
-      "apiSeason": 2024,
-      "path": "leagues/140-2024-2025.json",
-      "teamCount": 20,
-      "playerCount": 400
-    },
-    {
-      "leagueId": 253,
-      "label": "Estados Unidos — MLS",
-      "short": "MLS",
-      "seasonKey": "2024-2025",
-      "apiSeason": 2024,
-      "path": "leagues/253-2024-2025.json",
-      "teamCount": 29,
-      "playerCount": 580
-    },
-    {
-      "leagueId": 61,
-      "label": "Francia — Ligue 1",
-      "short": "FRA",
-      "seasonKey": "2024-2025",
-      "apiSeason": 2024,
-      "path": "leagues/61-2024-2025.json",
-      "teamCount": 19,
-      "playerCount": 380
-    },
-    {
-      "leagueId": 39,
-      "label": "Inglaterra — Premier League",
-      "short": "ENG",
-      "seasonKey": "2024-2025",
-      "apiSeason": 2024,
-      "path": "leagues/39-2024-2025.json",
-      "teamCount": 20,
-      "playerCount": 400
-    },
-    {
-      "leagueId": 135,
-      "label": "Italia — Serie A",
-      "short": "ITA",
-      "seasonKey": "2024-2025",
-      "apiSeason": 2024,
-      "path": "leagues/135-2024-2025.json",
-      "teamCount": 20,
-      "playerCount": 400
-    },
-    {
-      "leagueId": 262,
-      "label": "México — Liga MX",
-      "short": "MEX",
-      "seasonKey": "2024-2025",
-      "apiSeason": 2025,
-      "path": "leagues/262-2024-2025.json",
-      "teamCount": 18,
-      "playerCount": 360
-    },
-    {
-      "leagueId": 88,
-      "label": "Países Bajos — Eredivisie",
-      "short": "NED",
-      "seasonKey": "2024-2025",
-      "apiSeason": 2024,
-      "path": "leagues/88-2024-2025.json",
-      "teamCount": 24,
-      "playerCount": 480
-    },
-    {
-      "leagueId": 250,
-      "label": "Paraguay — Primera División",
-      "short": "PAR",
-      "seasonKey": "2024-2025",
-      "apiSeason": 2025,
-      "path": "leagues/250-2024-2025.json",
-      "teamCount": 12,
-      "playerCount": 240
-    },
-    {
-      "leagueId": 281,
-      "label": "Perú — Liga 1",
-      "short": "PER",
-      "seasonKey": "2024-2025",
-      "apiSeason": 2025,
-      "path": "leagues/281-2024-2025.json",
-      "teamCount": 19,
-      "playerCount": 380
-    },
-    {
-      "leagueId": 94,
-      "label": "Portugal — Primeira Liga",
-      "short": "POR",
-      "seasonKey": "2024-2025",
-      "apiSeason": 2024,
-      "path": "leagues/94-2024-2025.json",
-      "teamCount": 19,
-      "playerCount": 360
-    },
-    {
-      "leagueId": 203,
-      "label": "Turquía — Süper Lig",
-      "short": "TUR",
-      "seasonKey": "2024-2025",
-      "apiSeason": 2024,
-      "path": "leagues/203-2024-2025.json",
-      "teamCount": 19,
-      "playerCount": 380
-    },
-    {
-      "leagueId": 268,
-      "label": "Uruguay — Primera División",
-      "short": "URU",
-      "seasonKey": "2024-2025",
-      "apiSeason": 2025,
-      "path": "leagues/268-2024-2025.json",
-      "teamCount": 16,
-      "playerCount": 320
-    },
-    {
-      "leagueId": 299,
-      "label": "Venezuela — Primera División",
-      "short": "VEN",
-      "seasonKey": "2024-2025",
-      "apiSeason": 2025,
-      "path": "leagues/299-2024-2025.json",
-      "teamCount": 14,
-      "playerCount": 280
-    },
-    {
-      "leagueId": 78,
-      "label": "Alemania — Bundesliga",
-      "short": "GER",
-      "seasonKey": "2025-2026",
-      "apiSeason": 2025,
-      "path": "leagues/78-2025-2026.json",
-      "teamCount": 19,
-      "playerCount": 380
-    },
-    {
-      "leagueId": 307,
-      "label": "Arabia Saudita — Pro League",
-      "short": "KSA",
-      "seasonKey": "2025-2026",
-      "apiSeason": 2025,
-      "path": "leagues/307-2025-2026.json",
-      "teamCount": 18,
-      "playerCount": 360
     },
     {
       "leagueId": 128,
@@ -260,11 +70,31 @@
       "leagueId": 344,
       "label": "Bolivia — División Profesional",
       "short": "BOL",
+      "seasonKey": "2024-2025",
+      "apiSeason": 2025,
+      "path": "leagues/344-2024-2025.json",
+      "teamCount": 17,
+      "playerCount": 320
+    },
+    {
+      "leagueId": 344,
+      "label": "Bolivia — División Profesional",
+      "short": "BOL",
       "seasonKey": "2025-2026",
       "apiSeason": 2026,
       "path": "leagues/344-2025-2026.json",
       "teamCount": 16,
       "playerCount": 320
+    },
+    {
+      "leagueId": 71,
+      "label": "Brasil — Serie A",
+      "short": "BRA",
+      "seasonKey": "2024-2025",
+      "apiSeason": 2025,
+      "path": "leagues/71-2024-2025.json",
+      "teamCount": 20,
+      "playerCount": 400
     },
     {
       "leagueId": 71,
@@ -280,6 +110,16 @@
       "leagueId": 265,
       "label": "Chile — Primera División",
       "short": "CHI",
+      "seasonKey": "2024-2025",
+      "apiSeason": 2025,
+      "path": "leagues/265-2024-2025.json",
+      "teamCount": 16,
+      "playerCount": 320
+    },
+    {
+      "leagueId": 265,
+      "label": "Chile — Primera División",
+      "short": "CHI",
       "seasonKey": "2025-2026",
       "apiSeason": 2026,
       "path": "leagues/265-2025-2026.json",
@@ -289,7 +129,17 @@
     {
       "leagueId": 239,
       "label": "Colombia — Liga BetPlay",
-      "short": "COL A",
+      "short": "COL",
+      "seasonKey": "2024-2025",
+      "apiSeason": 2025,
+      "path": "leagues/239-2024-2025.json",
+      "teamCount": 20,
+      "playerCount": 400
+    },
+    {
+      "leagueId": 239,
+      "label": "Colombia — Liga BetPlay",
+      "short": "COL",
       "seasonKey": "2025-2026",
       "apiSeason": 2026,
       "path": "leagues/239-2025-2026.json",
@@ -299,12 +149,32 @@
     {
       "leagueId": 240,
       "label": "Colombia — Segunda división",
-      "short": "COL B",
+      "short": "COL",
+      "seasonKey": "2024-2025",
+      "apiSeason": 2025,
+      "path": "leagues/240-2024-2025.json",
+      "teamCount": 16,
+      "playerCount": 320
+    },
+    {
+      "leagueId": 240,
+      "label": "Colombia — Segunda división",
+      "short": "COL",
       "seasonKey": "2025-2026",
       "apiSeason": 2026,
       "path": "leagues/240-2025-2026.json",
       "teamCount": 16,
       "playerCount": 3
+    },
+    {
+      "leagueId": 242,
+      "label": "Ecuador — Liga Pro",
+      "short": "ECU",
+      "seasonKey": "2024-2025",
+      "apiSeason": 2025,
+      "path": "leagues/242-2024-2025.json",
+      "teamCount": 16,
+      "playerCount": 320
     },
     {
       "leagueId": 242,
@@ -320,6 +190,16 @@
       "leagueId": 140,
       "label": "España — La Liga",
       "short": "ESP",
+      "seasonKey": "2024-2025",
+      "apiSeason": 2024,
+      "path": "leagues/140-2024-2025.json",
+      "teamCount": 20,
+      "playerCount": 400
+    },
+    {
+      "leagueId": 140,
+      "label": "España — La Liga",
+      "short": "ESP",
       "seasonKey": "2025-2026",
       "apiSeason": 2025,
       "path": "leagues/140-2025-2026.json",
@@ -329,12 +209,32 @@
     {
       "leagueId": 253,
       "label": "Estados Unidos — MLS",
-      "short": "MLS",
+      "short": "EST",
+      "seasonKey": "2024-2025",
+      "apiSeason": 2024,
+      "path": "leagues/253-2024-2025.json",
+      "teamCount": 29,
+      "playerCount": 580
+    },
+    {
+      "leagueId": 253,
+      "label": "Estados Unidos — MLS",
+      "short": "EST",
       "seasonKey": "2025-2026",
       "apiSeason": 2025,
       "path": "leagues/253-2025-2026.json",
       "teamCount": 30,
       "playerCount": 600
+    },
+    {
+      "leagueId": 61,
+      "label": "Francia — Ligue 1",
+      "short": "FRA",
+      "seasonKey": "2024-2025",
+      "apiSeason": 2024,
+      "path": "leagues/61-2024-2025.json",
+      "teamCount": 19,
+      "playerCount": 380
     },
     {
       "leagueId": 61,
@@ -349,10 +249,30 @@
     {
       "leagueId": 39,
       "label": "Inglaterra — Premier League",
-      "short": "ENG",
+      "short": "ING",
+      "seasonKey": "2024-2025",
+      "apiSeason": 2024,
+      "path": "leagues/39-2024-2025.json",
+      "teamCount": 20,
+      "playerCount": 400
+    },
+    {
+      "leagueId": 39,
+      "label": "Inglaterra — Premier League",
+      "short": "ING",
       "seasonKey": "2025-2026",
       "apiSeason": 2025,
       "path": "leagues/39-2025-2026.json",
+      "teamCount": 20,
+      "playerCount": 400
+    },
+    {
+      "leagueId": 135,
+      "label": "Italia — Serie A",
+      "short": "ITA",
+      "seasonKey": "2024-2025",
+      "apiSeason": 2024,
+      "path": "leagues/135-2024-2025.json",
       "teamCount": 20,
       "playerCount": 400
     },
@@ -369,7 +289,17 @@
     {
       "leagueId": 262,
       "label": "México — Liga MX",
-      "short": "MEX",
+      "short": "MÉX",
+      "seasonKey": "2024-2025",
+      "apiSeason": 2025,
+      "path": "leagues/262-2024-2025.json",
+      "teamCount": 18,
+      "playerCount": 0
+    },
+    {
+      "leagueId": 262,
+      "label": "México — Liga MX",
+      "short": "MÉX",
       "seasonKey": "2025-2026",
       "apiSeason": 2025,
       "path": "leagues/262-2025-2026.json",
@@ -377,14 +307,14 @@
       "playerCount": 360
     },
     {
-      "leagueId": 88,
-      "label": "Países Bajos — Eredivisie",
-      "short": "NED",
-      "seasonKey": "2025-2026",
+      "leagueId": 250,
+      "label": "Paraguay — Primera División",
+      "short": "PAR",
+      "seasonKey": "2024-2025",
       "apiSeason": 2025,
-      "path": "leagues/88-2025-2026.json",
-      "teamCount": 18,
-      "playerCount": 360
+      "path": "leagues/250-2024-2025.json",
+      "teamCount": 12,
+      "playerCount": 240
     },
     {
       "leagueId": 250,
@@ -397,6 +327,36 @@
       "playerCount": 240
     },
     {
+      "leagueId": 88,
+      "label": "Países Bajos — Eredivisie",
+      "short": "PAÍ",
+      "seasonKey": "2024-2025",
+      "apiSeason": 2024,
+      "path": "leagues/88-2024-2025.json",
+      "teamCount": 24,
+      "playerCount": 480
+    },
+    {
+      "leagueId": 88,
+      "label": "Países Bajos — Eredivisie",
+      "short": "PAÍ",
+      "seasonKey": "2025-2026",
+      "apiSeason": 2025,
+      "path": "leagues/88-2025-2026.json",
+      "teamCount": 18,
+      "playerCount": 360
+    },
+    {
+      "leagueId": 281,
+      "label": "Perú — Liga 1",
+      "short": "PER",
+      "seasonKey": "2024-2025",
+      "apiSeason": 2025,
+      "path": "leagues/281-2024-2025.json",
+      "teamCount": 19,
+      "playerCount": 380
+    },
+    {
       "leagueId": 281,
       "label": "Perú — Liga 1",
       "short": "PER",
@@ -404,6 +364,16 @@
       "apiSeason": 2026,
       "path": "leagues/281-2025-2026.json",
       "teamCount": 18,
+      "playerCount": 360
+    },
+    {
+      "leagueId": 94,
+      "label": "Portugal — Primeira Liga",
+      "short": "POR",
+      "seasonKey": "2024-2025",
+      "apiSeason": 2024,
+      "path": "leagues/94-2024-2025.json",
+      "teamCount": 19,
       "playerCount": 360
     },
     {
@@ -420,6 +390,16 @@
       "leagueId": 203,
       "label": "Turquía — Süper Lig",
       "short": "TUR",
+      "seasonKey": "2024-2025",
+      "apiSeason": 2024,
+      "path": "leagues/203-2024-2025.json",
+      "teamCount": 19,
+      "playerCount": 380
+    },
+    {
+      "leagueId": 203,
+      "label": "Turquía — Süper Lig",
+      "short": "TUR",
       "seasonKey": "2025-2026",
       "apiSeason": 2025,
       "path": "leagues/203-2025-2026.json",
@@ -430,11 +410,31 @@
       "leagueId": 268,
       "label": "Uruguay — Primera División",
       "short": "URU",
+      "seasonKey": "2024-2025",
+      "apiSeason": 2025,
+      "path": "leagues/268-2024-2025.json",
+      "teamCount": 16,
+      "playerCount": 320
+    },
+    {
+      "leagueId": 268,
+      "label": "Uruguay — Primera División",
+      "short": "URU",
       "seasonKey": "2025-2026",
       "apiSeason": 2026,
       "path": "leagues/268-2025-2026.json",
       "teamCount": 16,
       "playerCount": 160
+    },
+    {
+      "leagueId": 299,
+      "label": "Venezuela — Primera División",
+      "short": "VEN",
+      "seasonKey": "2024-2025",
+      "apiSeason": 2025,
+      "path": "leagues/299-2024-2025.json",
+      "teamCount": 14,
+      "playerCount": 280
     },
     {
       "leagueId": 299,

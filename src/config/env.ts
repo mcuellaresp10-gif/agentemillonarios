@@ -1,3 +1,13 @@
+function nodeEnv(key: string): string | undefined {
+  try {
+    const proc = (globalThis as { process?: { env?: Record<string, string | undefined> } })
+      .process
+    return proc?.env?.[key]
+  } catch {
+    return undefined
+  }
+}
+
 /** Lee variables Vite (browser) o process.env (Node/scripts). */
 export function readEnv(key: string, fallback = ''): string {
   try {
@@ -8,7 +18,7 @@ export function readEnv(key: string, fallback = ''): string {
   } catch {
     /* Node sin import.meta.env */
   }
-  const fromProcess = typeof process !== 'undefined' ? process.env[key] : undefined
+  const fromProcess = nodeEnv(key)
   if (fromProcess != null && fromProcess !== '') return fromProcess
   return fallback
 }

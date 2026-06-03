@@ -1,78 +1,79 @@
-# Snapshot de scouting (base híbrida)
+# Snapshot de scouting (base híbrida + SQLite)
 
-Catálogo estático de equipos y estadísticas de jugadores para **Scouting**, **Colombianos en el exterior** y **plantilla Millonarios**, sin gastar cuota de API-Football en cada visita.
+Catálogo de equipos y estadísticas para **Scouting**, **Colombianos en el exterior** y **plantilla Millonarios**.
 
-## Estructura
+## Arquitectura
 
 ```
-public/data/snapshot/
-  manifest.json              # índice (ligas, rutas, conteos)
-  leagues/{leagueId}-{seasonKey}.json
-  millonarios/{seasonKey}.json
+Runtime:  SQLite (data/scout.db) → fallback JSON estático → fallback API-Football
+Backup:   npm run export:scout → public/data/snapshot/ (commitear en git)
 ```
 
-- **Temporadas lógicas:** `2024-2025` y `2025-2026`
-- **22 ligas únicas** (SCOUT_LEAGUES + COLOMBIANOS_EXTERIOR, deduplicadas)
-- **Plantilla Millonarios** en archivos aparte por temporada
+**Ventana histórica:** jun 2024 – may 2026 (`2024-2025` y `2025-2026`), fusionando varias temporadas API por liga.
 
-## Generar / actualizar datos
+**Desde jun 2026:** updates esporádicos por jugador/equipo → SQLite (`source=manual`).
 
-Requiere `API_FOOTBALL_KEY` en `.env` o `.env.local`.
+## Comandos
 
 ```bash
-# Sync incremental (omite archivos ya existentes)
+# Importar JSON existente → SQLite (rápido, one-shot)
+npm run migrate:scout
+
+# Sync bulk API → SQLite + export JSON
 npm run sync:scout
 
-# Regenerar todo
-npm run sync:scout -- --force
+# Export SQLite → public/data/snapshot/
+npm run export:scout
+
+# Updates esporádicos
+npm run sync:player -- --search=Marchiori --league=128 --season-key=2025-2026
+npm run sync:player -- --id=12345 --team=438 --league=128 --season-key=2025-2026
+npm run sync:team -- --team=438 --league=128 --name=Velez --season-key=2025-2026
 ```
 
-Variables opcionales:
+## Mapeo de temporadas (multi-season merge)
+
+| Temporada UI | Ligas europeas / MLS | Ligas sudamericanas / Colombia / MX |
+|--------------|----------------------|-------------------------------------|
+| 2024-2025 | API `[2024]` | API `[2024, 2025]` |
+| 2025-2026 | API `[2025]` | API `[2025, 2026]` |
+
+Liga MX (`262`): override `2025-2026` → API `2025`.
+
+El sync usa **plantilla completa** (`players/squads`) + fetch por jugador/temporada para evitar truncar plantillas (ej. arqueros como Marchiori en Vélez).
+
+## Variables de entorno
 
 | Variable | Default | Descripción |
 |----------|---------|-------------|
-| `SYNC_DELAY_MS` | `80` | Pausa entre requests a API-Football |
-| `API_FOOTBALL_BASE_URL` | api-sports v3 | Base URL de la API |
+| `SCOUT_DB_PATH` | `data/scout.db` | Ruta SQLite en servidor |
+| `SCOUT_WRITE_ENABLED` | `false` | POST `/api/scout/fetch-*` en producción |
+| `SYNC_DELAY_MS` | `80` | Pausa entre requests en sync |
+| `VITE_SCOUT_API` | `/api/scout` | API de lectura scout en cliente |
+| `VITE_FORCE_LIVE_API` | `false` | Ignora BD local |
 
-Tras un sync exitoso, **commitea** `public/data/snapshot/` para que Render/Netlify sirvan los JSON en producción.
+## API REST (servidor)
 
-Estimación: ~2.000 requests por corrida completa (muy por debajo del límite diario).
-
-## Mapeo de temporadas
-
-| Temporada (UI) | Ligas sudamericanas / Colombia / Liga MX | Ligas europeas / MLS / KSA / Turquía |
-|----------------|------------------------------------------|--------------------------------------|
-| 2024-2025 | API `season=2025` | API `season=2024` |
-| 2025-2026 | API `season=2026` | API `season=2025` |
-
-Definido en [`src/config/scoutSnapshotSeasons.ts`](../src/config/scoutSnapshotSeasons.ts).
-
-**Excepciones:** Liga MX (`262`) usa `season=2025` para la temporada lógica `2025-2026` hasta que API-Football publique la season 2026.
-
-## Runtime en la app
-
-1. [`snapshotStore.ts`](../src/services/snapshotStore.ts) carga `manifest.json` y hace lazy-load de archivos de liga.
-2. [`scoutCatalogResolver.ts`](../src/services/scoutCatalogResolver.ts) devuelve snapshot si existe; si no, llama a la API (fallback).
-3. Hooks [`useScouting`](../src/hooks/useScouting.ts) y [`useMillonariosPlayers`](../src/hooks/useJugadores.ts) usan los resolvers.
-
-### Variables de entorno (cliente)
-
-| Variable | Descripción |
-|----------|-------------|
-| `VITE_FORCE_LIVE_API=true` | Ignora snapshot; siempre API en vivo |
-| `VITE_SNAPSHOT_URL` | Base URL (default `/data/snapshot`) |
+| Método | Ruta |
+|--------|------|
+| GET | `/api/scout/teams?leagueIds=&seasonKey=` |
+| GET | `/api/scout/players?teamId=&leagueId=&seasonKey=` |
+| GET | `/api/scout/player/:id?teamId=&leagueId=&seasonKey=` |
+| POST | `/api/scout/fetch-player` |
+| POST | `/api/scout/fetch-team` |
 
 ## UI
 
-En **Scouting** hay selector de temporada (`2024/2025` | `2025/2026`) y la fecha del último sync (`manifest.generatedAt`).
-
-Lo que **sigue en API en vivo:** fixtures, tablas, H2H, alineaciones, Transfermarkt, análisis IA.
+- **Scouting:** selector de temporada + fecha del snapshot.
+- **Detalle candidato:** botón **Actualizar stats** (fetch API → SQLite).
+- Links incluyen `seasonKey`, `league`, `leagueLabel`.
 
 ## Archivos clave
 
 | Archivo | Rol |
 |---------|-----|
-| `scripts/sync-scout-snapshot.ts` | Generador desde API-Football |
-| `src/types/scoutSnapshot.ts` | Tipos del manifest y snapshots |
-| `src/services/snapshotStore.ts` | Lectura en cliente |
-| `src/services/scoutCatalogResolver.ts` | Snapshot o fallback API |
+| `server/db/scoutDb.ts` | SQLite schema y queries |
+| `server/services/scoutSyncCore.ts` | Lógica sync bulk/esporádico |
+| `server/routes/scoutDb.ts` | API REST |
+| `src/services/scoutApi.ts` | Cliente HTTP scout |
+| `src/services/scoutCatalogResolver.ts` | SQLite → JSON → API |

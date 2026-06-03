@@ -13,6 +13,10 @@
     "start": "tsx server/index.ts",
     "start:api": "tsx server/index.ts --prod",
     "sync:scout": "tsx --tsconfig tsconfig.app.json scripts/sync-scout-snapshot.ts",
+    "sync:player": "tsx --tsconfig tsconfig.app.json scripts/sync-player.ts",
+    "sync:team": "tsx --tsconfig tsconfig.app.json scripts/sync-team.ts",
+    "migrate:scout": "tsx --tsconfig tsconfig.app.json scripts/migrate-snapshot-to-sqlite.ts",
+    "export:scout": "tsx --tsconfig tsconfig.app.json scripts/export-scout-db.ts",
     "lint": "eslint .",
     "preview": "npm run build && npm run start:prod",
     "start:prod": "tsx server/index.ts --prod"
@@ -22,6 +26,7 @@
     "@tanstack/react-query": "^5.100.14",
     "@tanstack/react-virtual": "^3.13.26",
     "axios": "^1.16.1",
+    "better-sqlite3": "^12.10.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cookie-parser": "^1.4.7",
@@ -47,6 +52,7 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@tailwindcss/vite": "^4.3.0",
+    "@types/better-sqlite3": "^7.6.13",
     "@types/cookie-parser": "^1.4.10",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",

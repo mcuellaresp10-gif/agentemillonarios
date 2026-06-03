@@ -10,6 +10,8 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
+data/scout.db
+data/scout.db-*
 *.local
 .env
 .env.local

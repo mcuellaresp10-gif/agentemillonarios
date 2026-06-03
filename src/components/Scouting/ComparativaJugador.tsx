@@ -24,9 +24,11 @@ const ROWS: Array<{
 export function ComparativaJugador({
   candidato,
   actual,
+  statsSourceLabel,
 }: {
   candidato: PlayerSeasonStats
   actual: PlayerSeasonStats | null
+  statsSourceLabel?: string
 }) {
   if (!actual) {
     return (
@@ -45,7 +47,14 @@ export function ComparativaJugador({
         <thead>
           <tr className="bg-mill-blue text-white">
             <th className="px-4 py-2 text-left"></th>
-            <th className="px-4 py-2">Candidato</th>
+            <th className="px-4 py-2">
+              <div>Candidato</div>
+              {statsSourceLabel && (
+                <div className="text-xs font-normal text-blue-100/90 mt-0.5">
+                  {statsSourceLabel}
+                </div>
+              )}
+            </th>
             <th className="px-4 py-2 text-center">vs</th>
             <th className="px-4 py-2">Millonarios</th>
           </tr>

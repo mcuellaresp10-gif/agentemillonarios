@@ -4,6 +4,12 @@ export type SeasonKey = '2024-2025' | '2025-2026'
 
 export const SEASON_KEYS: SeasonKey[] = ['2024-2025', '2025-2026']
 
+export type StatsDisplaySource =
+  | { kind: 'window'; seasonKey: SeasonKey }
+  | { kind: 'priorWindow'; seasonKey: SeasonKey }
+  | { kind: 'apiSeason'; apiSeason: number }
+  | { kind: 'live' }
+
 export interface ScoutLeagueSnapshot {
   version: 1
   leagueId: number

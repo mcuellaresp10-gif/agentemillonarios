@@ -355,6 +355,7 @@ export default function Scouting() {
             showLeague={isColombianosMode || !filters.leagueId || mode === 'reemplazo'}
             showValueColumns={showResults}
             enrichment={enrichment}
+            seasonKey={seasonKey}
           />
         </>
       )}
