@@ -33,6 +33,7 @@ export function createScoutApiClient(opts: ApiClientOptions) {
   async function apiGet<T>(
     path: string,
     params: Record<string, string | number> = {},
+    attempt = 0,
   ): Promise<T> {
     opts.onRequest?.()
     const qs = new URLSearchParams(
@@ -40,6 +41,12 @@ export function createScoutApiClient(opts: ApiClientOptions) {
     ).toString()
     const url = `${baseUrl}/${path}${qs ? `?${qs}` : ''}`
     const res = await fetch(url, { headers: { 'x-apisports-key': opts.apiKey } })
+    if (res.status === 429 && attempt < 5) {
+      const waitMs = Math.min(60_000, 5_000 * 2 ** attempt)
+      console.warn(`  ⏳ rate limit en ${path}, reintento en ${waitMs / 1000}s…`)
+      await new Promise((r) => setTimeout(r, waitMs))
+      return apiGet(path, params, attempt + 1)
+    }
     if (!res.ok) throw new Error(`API ${path} → ${res.status}`)
     const json = (await res.json()) as { response: T; errors?: unknown }
     if (json.errors && Object.keys(json.errors as object).length > 0) {
@@ -129,7 +136,9 @@ export function createScoutApiClient(opts: ApiClientOptions) {
     const playerIds = new Set<number>()
 
     if (squad.length) {
-      for (const sp of squad) playerIds.add(sp.id)
+      for (const sp of squad) {
+        if (sp.id > 0) playerIds.add(sp.id)
+      }
     } else {
       for (const apiSeason of apiSeasons) {
         const paginated = await fetchTeamPlayersPaginated(teamId, apiSeason)

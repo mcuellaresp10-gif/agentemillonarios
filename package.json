@@ -4,14 +4,14 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "concurrently -n api,web -c blue,green \"tsx watch server/index.ts\" \"vite\"",
+    "dev": "concurrently -n api,web -c blue,green \"tsx watch --tsconfig tsconfig.server.json server/index.ts\" \"vite\"",
     "dev:web": "vite",
-    "dev:api": "tsx watch server/index.ts",
+    "dev:api": "tsx watch --tsconfig tsconfig.server.json server/index.ts",
     "build": "vite build",
     "typecheck": "tsc -b",
     "build:netlify": "npm run build && node scripts/write-netlify-redirects.mjs",
-    "start": "tsx server/index.ts",
-    "start:api": "tsx server/index.ts --prod",
+    "start": "tsx --tsconfig tsconfig.server.json server/index.ts",
+    "start:api": "tsx --tsconfig tsconfig.server.json server/index.ts --prod",
     "sync:scout": "tsx --tsconfig tsconfig.app.json scripts/sync-scout-snapshot.ts",
     "sync:player": "tsx --tsconfig tsconfig.app.json scripts/sync-player.ts",
     "sync:team": "tsx --tsconfig tsconfig.app.json scripts/sync-team.ts",
@@ -19,7 +19,7 @@
     "export:scout": "tsx --tsconfig tsconfig.app.json scripts/export-scout-db.ts",
     "lint": "eslint .",
     "preview": "npm run build && npm run start:prod",
-    "start:prod": "tsx server/index.ts --prod"
+    "start:prod": "tsx --tsconfig tsconfig.server.json server/index.ts --prod"
   },
   "dependencies": {
     "@fontsource/inter": "^5.2.8",
