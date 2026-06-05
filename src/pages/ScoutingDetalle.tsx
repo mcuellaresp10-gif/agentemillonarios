@@ -1,12 +1,21 @@
 import { useParams, useSearchParams } from 'react-router-dom'
-import { useMemo, useState } from 'react'
+import { lazy, Suspense, useMemo, useState } from 'react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { getPlayersStatistics } from '@/services/apiFootball'
 import { useMillonariosPlayers } from '@/hooks/useJugadores'
 import { usePlayerMatchHistory } from '@/hooks/usePlayerMatchHistory'
 import { ComparativaJugador } from '@/components/Scouting/ComparativaJugador'
-import { GraficoRadarComparativa } from '@/components/Scouting/GraficoRadarComparativa'
-import { GraficoRedComparativa } from '@/components/Scouting/GraficoRedComparativa'
+
+const GraficoRadarComparativa = lazy(() =>
+  import('@/components/Scouting/GraficoRadarComparativa').then((m) => ({
+    default: m.GraficoRadarComparativa,
+  }))
+)
+const GraficoRedComparativa = lazy(() =>
+  import('@/components/Scouting/GraficoRedComparativa').then((m) => ({
+    default: m.GraficoRedComparativa,
+  }))
+)
 import { GeneradorAnalisisIA } from '@/components/Analisis/GeneradorAnalisisIA'
 import { MapaPosicionCampo } from '@/components/shared/MapaPosicionCampo'
 import { CuadriculaStats } from '@/components/shared/CuadriculaStats'
@@ -265,18 +274,20 @@ export default function ScoutingDetalle() {
       />
 
       {actual && comparison && (
-        <div className="grid gap-6 lg:grid-cols-2">
-          <GraficoRadarComparativa
-            candidato={candidato}
-            actual={actual}
-            comparison={comparison}
-          />
-          <GraficoRedComparativa
-            candidato={candidato}
-            actual={actual}
-            comparison={comparison}
-          />
-        </div>
+        <Suspense fallback={<div className="h-64 animate-pulse rounded-lg bg-muted" />}>
+          <div className="grid gap-6 lg:grid-cols-2">
+            <GraficoRadarComparativa
+              candidato={candidato}
+              actual={actual}
+              comparison={comparison}
+            />
+            <GraficoRedComparativa
+              candidato={candidato}
+              actual={actual}
+              comparison={comparison}
+            />
+          </div>
+        </Suspense>
       )}
 
       <section>

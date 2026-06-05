@@ -20,6 +20,9 @@ export default defineConfig(({ mode }) => {
         },
       },
     },
+    optimizeDeps: {
+      include: ['recharts'],
+    },
     define: {
       'import.meta.env.VITE_CACHE_DURATION': JSON.stringify(
         env.CACHE_DURATION_MS || '14400000',
