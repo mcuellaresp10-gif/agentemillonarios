@@ -1,4 +1,4 @@
-import { lazy, Suspense, useState } from 'react'
+import React, { lazy, Suspense, useState } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Toaster } from 'sonner'
@@ -6,6 +6,7 @@ import { AppLayout } from '@/components/layout/AppLayout'
 import { SplashScreen } from '@/components/shared/SplashScreen'
 import { AccessGate } from '@/components/shared/AccessGate'
 import { DashboardSkeleton } from '@/components/shared/Loading'
+import { ErrorBoundary } from '@/components/shared/ErrorBoundary'
 import { CACHE_DURATION_MS } from '@/config/constants'
 
 const Dashboard = lazy(() => import('@/pages/Dashboard'))
@@ -37,6 +38,16 @@ function PageFallback() {
   return <DashboardSkeleton />
 }
 
+function PageWrapper({ children }: { children: React.ReactNode }) {
+  return (
+    <ErrorBoundary>
+      <Suspense fallback={<PageFallback />}>
+        {children}
+      </Suspense>
+    </ErrorBoundary>
+  )
+}
+
 export default function App() {
   const [splash, setSplash] = useState(true)
 
@@ -47,118 +58,20 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route element={<AppLayout />}>
-            <Route
-              index
-              element={
-                <Suspense fallback={<PageFallback />}>
-                  <Dashboard />
-                </Suspense>
-              }
-            />
-            <Route
-              path="calendario"
-              element={
-                <Suspense fallback={<PageFallback />}>
-                  <Calendario />
-                </Suspense>
-              }
-            />
-            <Route
-              path="calendario/:fixtureId"
-              element={
-                <Suspense fallback={<PageFallback />}>
-                  <CalendarioDetalle />
-                </Suspense>
-              }
-            />
-            <Route
-              path="analisis"
-              element={
-                <Suspense fallback={<PageFallback />}>
-                  <Analisis />
-                </Suspense>
-              }
-            />
-            <Route
-              path="analisis/:fixtureId"
-              element={
-                <Suspense fallback={<PageFallback />}>
-                  <AnalisisDetalle />
-                </Suspense>
-              }
-            />
-            <Route
-              path="h2h"
-              element={
-                <Suspense fallback={<PageFallback />}>
-                  <H2H />
-                </Suspense>
-              }
-            />
-            <Route
-              path="h2h/:rivalId"
-              element={
-                <Suspense fallback={<PageFallback />}>
-                  <H2HDetalle />
-                </Suspense>
-              }
-            />
-            <Route
-              path="estadisticas"
-              element={
-                <Suspense fallback={<PageFallback />}>
-                  <Estadisticas />
-                </Suspense>
-              }
-            />
-            <Route
-              path="estadisticas/:playerId"
-              element={
-                <Suspense fallback={<PageFallback />}>
-                  <EstadisticasDetalle />
-                </Suspense>
-              }
-            />
-            <Route
-              path="scouting"
-              element={
-                <Suspense fallback={<PageFallback />}>
-                  <Scouting />
-                </Suspense>
-              }
-            />
-            <Route
-              path="scouting/:playerId"
-              element={
-                <Suspense fallback={<PageFallback />}>
-                  <ScoutingDetalle />
-                </Suspense>
-              }
-            />
-            <Route
-              path="tabla"
-              element={
-                <Suspense fallback={<PageFallback />}>
-                  <Tabla />
-                </Suspense>
-              }
-            />
-            <Route
-              path="buscar"
-              element={
-                <Suspense fallback={<PageFallback />}>
-                  <Buscar />
-                </Suspense>
-              }
-            />
-            <Route
-              path="simulacion"
-              element={
-                <Suspense fallback={<PageFallback />}>
-                  <Simulacion />
-                </Suspense>
-              }
-            />
+            <Route index element={<PageWrapper><Dashboard /></PageWrapper>} />
+            <Route path="calendario" element={<PageWrapper><Calendario /></PageWrapper>} />
+            <Route path="calendario/:fixtureId" element={<PageWrapper><CalendarioDetalle /></PageWrapper>} />
+            <Route path="analisis" element={<PageWrapper><Analisis /></PageWrapper>} />
+            <Route path="analisis/:fixtureId" element={<PageWrapper><AnalisisDetalle /></PageWrapper>} />
+            <Route path="h2h" element={<PageWrapper><H2H /></PageWrapper>} />
+            <Route path="h2h/:rivalId" element={<PageWrapper><H2HDetalle /></PageWrapper>} />
+            <Route path="estadisticas" element={<PageWrapper><Estadisticas /></PageWrapper>} />
+            <Route path="estadisticas/:playerId" element={<PageWrapper><EstadisticasDetalle /></PageWrapper>} />
+            <Route path="scouting" element={<PageWrapper><Scouting /></PageWrapper>} />
+            <Route path="scouting/:playerId" element={<PageWrapper><ScoutingDetalle /></PageWrapper>} />
+            <Route path="tabla" element={<PageWrapper><Tabla /></PageWrapper>} />
+            <Route path="buscar" element={<PageWrapper><Buscar /></PageWrapper>} />
+            <Route path="simulacion" element={<PageWrapper><Simulacion /></PageWrapper>} />
           </Route>
         </Routes>
       </BrowserRouter>
