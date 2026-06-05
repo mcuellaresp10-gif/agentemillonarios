@@ -21,6 +21,7 @@ const Scouting = lazy(() => import('@/pages/Scouting'))
 const ScoutingDetalle = lazy(() => import('@/pages/ScoutingDetalle'))
 const Tabla = lazy(() => import('@/pages/Tabla'))
 const Buscar = lazy(() => import('@/pages/Buscar'))
+const Simulacion = lazy(() => import('@/pages/Simulacion'))
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -147,6 +148,14 @@ export default function App() {
               element={
                 <Suspense fallback={<PageFallback />}>
                   <Buscar />
+                </Suspense>
+              }
+            />
+            <Route
+              path="simulacion"
+              element={
+                <Suspense fallback={<PageFallback />}>
+                  <Simulacion />
                 </Suspense>
               }
             />

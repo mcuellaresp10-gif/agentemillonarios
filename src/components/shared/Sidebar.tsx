@@ -8,6 +8,7 @@ import {
   Swords,
   Table2,
   Brain,
+  TrendingUp,
   X,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -22,6 +23,7 @@ const links = [
   { to: '/scouting', label: 'Scouting', icon: Search },
   { to: '/tabla', label: 'Tabla', icon: Table2 },
   { to: '/buscar', label: 'Búsqueda', icon: Users },
+  { to: '/simulacion', label: 'Simulación', icon: TrendingUp },
 ]
 
 export function Sidebar() {
