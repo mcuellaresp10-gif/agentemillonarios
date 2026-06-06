@@ -67,11 +67,11 @@ export function GeneradorAnalisisIA({
     <div className="space-y-4">
       <div className="flex flex-wrap gap-2 items-center">
         <Button onClick={() => generate(false)} disabled={loading}>
-          {loading ? 'Generando...' : analisis ? 'Ver guardado' : 'Generar con IA'}
+          {loading ? 'Generando...' : analisis ? 'Ver guardado' : 'Generar'}
         </Button>
         {analisis && (
           <>
-            <Badge variant="ai">IA · {analisis.modelo_usado}</Badge>
+            <Badge variant="ai">Análisis generado</Badge>
             <Button
               variant="secondary"
               size="sm"
