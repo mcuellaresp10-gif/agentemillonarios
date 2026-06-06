@@ -46,8 +46,8 @@ export default function Dashboard() {
           teamStats={teamStats.data}
         />
       </div>
-      <UltimosPartidos fixtures={recent.data ?? []} />
       <AlertasTendencias />
+      <UltimosPartidos fixtures={recent.data ?? []} />
     </div>
   )
 }
