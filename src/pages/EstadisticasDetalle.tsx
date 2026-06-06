@@ -19,9 +19,34 @@ export default function EstadisticasDetalle() {
 
   const heatPositions = useMemo(() => {
     if (!player) return []
-    const fromHistory = (history ?? []).map((h) => h.position)
-    return [...new Set([...player.positionsPlayed, ...fromHistory])]
+    // Sin deduplicar: cada aparición cuenta como peso +1 en el blob
+    const fromHistory = (history ?? [])
+      .filter((h) => h.position && h.position !== '—' && h.minutes > 0)
+      .map((h) => h.position)
+    return [...player.positionsPlayed, ...fromHistory]
   }, [player, history])
+
+  const positionBreakdown = useMemo(() => {
+    const groups: Record<string, { games: number; minutes: number; ratings: number[] }> = {}
+    for (const h of history ?? []) {
+      const pos = h.position
+      if (!pos || pos === '—' || h.minutes === 0) continue
+      if (!groups[pos]) groups[pos] = { games: 0, minutes: 0, ratings: [] }
+      groups[pos].games++
+      groups[pos].minutes += h.minutes
+      if (h.rating != null) groups[pos].ratings.push(h.rating)
+    }
+    return Object.entries(groups)
+      .map(([pos, d]) => ({
+        position: pos,
+        games: d.games,
+        minutes: d.minutes,
+        avgRating: d.ratings.length
+          ? Math.round((d.ratings.reduce((a, b) => a + b, 0) / d.ratings.length) * 10) / 10
+          : null,
+      }))
+      .sort((a, b) => b.minutes - a.minutes)
+  }, [history])
 
   const chartData = useMemo(() => {
     return (history ?? [])
@@ -70,8 +95,9 @@ export default function EstadisticasDetalle() {
           subtitulo={
             loadingHistory
               ? 'Cargando historial por partido…'
-              : 'Intensidad según posiciones reportadas (temporada + últimos partidos)'
+              : 'Intensidad según minutos jugados por posición'
           }
+          breakdown={positionBreakdown.length ? positionBreakdown : undefined}
         />
         <Card>
           <CardHeader>

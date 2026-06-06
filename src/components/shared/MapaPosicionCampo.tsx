@@ -1,5 +1,13 @@
 import { useId, useMemo } from 'react'
 import { PITCH_ZONES, zonasDesdePosiciones, posicionEnEspanol } from '@/utils/positions'
+import { ratingColor } from '@/utils/calculators'
+
+interface PositionStat {
+  position: string
+  games: number
+  minutes: number
+  avgRating: number | null
+}
 const PITCH_GREEN = '#7cb356'
 const LINE_WHITE = '#ffffff'
 
@@ -51,16 +59,24 @@ export function MapaPosicionCampo({
   titulo = 'Mapa de posición',
   subtitulo,
   compact,
+  breakdown,
 }: {
   positions: string[]
   titulo?: string
   subtitulo?: string
   compact?: boolean
+  breakdown?: PositionStat[]
 }) {
   const uid = useId().replace(/:/g, '')
   const blurId = `heat-blur-${uid}`
   const weights = zonasDesdePosiciones(positions)
   const max = Math.max(...weights.values(), 1)
+
+  // Zona con mayor peso (posición más frecuente)
+  const topZoneId = useMemo(() => {
+    return Array.from(weights.entries()).sort((a, b) => b[1] - a[1])[0]?.[0]
+  }, [weights])
+  const topLabel = posicionEnEspanol(topZoneId ?? positions[0] ?? '—')
 
   const blobs = useMemo(() => {
     return PITCH_ZONES.map((zone) => {
@@ -136,25 +152,50 @@ export function MapaPosicionCampo({
       </svg>
       <p className="text-xs text-slate-500 mt-2 text-center">
         Zona principal:{' '}
-        <strong className="text-mill-blue">
-          {posicionEnEspanol(positions[0] ?? '—')}
-        </strong>
-        {positions.length > 1 && (
-          <span> · {positions.length} roles registrados</span>
-        )}
+        <strong className="text-mill-blue">{topLabel}</strong>
       </p>
-      <div className="flex justify-center gap-3 mt-2 text-[10px] text-slate-400">
-        <span className="inline-flex items-center gap-1.5">
-          <span
-            className="w-10 h-2 rounded-full shrink-0"
-            style={{
-              background:
-                'linear-gradient(90deg, rgba(124,179,86,0.25) 0%, #d4e878 30%, #ffd54f 55%, #ff8c1a 80%, #e85d2a 100%)',
-            }}
-          />
-          Baja → alta actividad
-        </span>
-      </div>
+
+      {breakdown && breakdown.length > 0 ? (
+        <div className="mt-3 overflow-x-auto">
+          <table className="w-full text-xs border-collapse">
+            <thead>
+              <tr className="text-slate-400 border-b border-slate-100">
+                <th className="text-left pb-1 font-medium">Posición</th>
+                <th className="text-center pb-1 font-medium">PJ</th>
+                <th className="text-center pb-1 font-medium">Min</th>
+                <th className="text-center pb-1 font-medium">Rating</th>
+              </tr>
+            </thead>
+            <tbody>
+              {breakdown.map((row) => (
+                <tr key={row.position} className="border-b border-slate-50">
+                  <td className="py-1 text-slate-600">
+                    {posicionEnEspanol(row.position)}
+                  </td>
+                  <td className="py-1 text-center text-slate-500">{row.games}</td>
+                  <td className="py-1 text-center text-slate-500">{row.minutes}</td>
+                  <td className={`py-1 text-center font-stats font-semibold ${ratingColor(row.avgRating)}`}>
+                    {row.avgRating?.toFixed(1) ?? '—'}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        <div className="flex justify-center gap-3 mt-2 text-[10px] text-slate-400">
+          <span className="inline-flex items-center gap-1.5">
+            <span
+              className="w-10 h-2 rounded-full shrink-0"
+              style={{
+                background:
+                  'linear-gradient(90deg, rgba(124,179,86,0.25) 0%, #d4e878 30%, #ffd54f 55%, #ff8c1a 80%, #e85d2a 100%)',
+              }}
+            />
+            Baja → alta actividad
+          </span>
+        </div>
+      )}
     </div>
   )
 }
