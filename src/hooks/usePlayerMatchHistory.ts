@@ -34,6 +34,7 @@ export function usePlayerMatchHistory(playerId: number, teamId = TEAM_MILLONARIO
               rating: games.rating ? parseFloat(String(games.rating)) : null,
               minutes: games.minutes ?? 0,
               position: games.position ?? '—',
+              result: f.result ?? undefined,
             })
           } catch {
             /* sin datos en este partido */

@@ -189,6 +189,7 @@ export interface PlayerMatchRating {
   rating: number | null
   minutes: number
   position: string
+  result?: 'W' | 'D' | 'L'
 }
 
 export type ScoutCandidate = PlayerSeasonStats

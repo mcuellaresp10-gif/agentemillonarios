@@ -25,7 +25,7 @@ export default function EstadisticasDetalle() {
 
   const chartData = useMemo(() => {
     return (history ?? [])
-      .filter((h) => h.rating != null)
+      .filter((h) => h.rating != null && h.minutes > 0)
       .slice(0, 12)
       .reverse()
       .map((h) => ({
@@ -34,6 +34,9 @@ export default function EstadisticasDetalle() {
           month: 'short',
         }),
         rating: h.rating!,
+        opponent: h.opponent,
+        minutes: h.minutes,
+        result: h.result,
       }))
   }, [history])
 
@@ -76,7 +79,7 @@ export default function EstadisticasDetalle() {
           </CardHeader>
           <CardContent>
             {chartData.length > 0 ? (
-              <GraficaRendimiento data={chartData} />
+              <GraficaRendimiento data={chartData} avgRating={player.ratingAvg ?? undefined} />
             ) : (
               <p className="text-sm text-slate-500">
                 {loadingHistory
