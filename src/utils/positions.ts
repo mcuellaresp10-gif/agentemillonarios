@@ -79,14 +79,27 @@ export const ORDENAR_LABELS: Record<string, string> = {
 
 export function posicionEnEspanol(pos: string): string {
   const map: Record<string, string> = {
-    G: 'Portero',
-    Goalkeeper: 'Portero',
-    D: 'Defensa',
-    Defender: 'Defensa',
-    M: 'Mediocampista',
-    Midfielder: 'Mediocampista',
-    F: 'Delantero',
-    Attacker: 'Delantero',
+    // Portero
+    G: 'Portero', GK: 'Portero', Goalkeeper: 'Portero',
+    // Central
+    CB: 'Central', DC: 'Central',
+    // Lateral
+    LB: 'Lateral', RB: 'Lateral', LWB: 'Lateral', RWB: 'Lateral', WB: 'Lateral',
+    // Defensa genérico (cuando la API solo dice "D")
+    D: 'Defensa', Defender: 'Defensa',
+    // MC Defensivo
+    CDM: 'MC Defensivo', DM: 'MC Defensivo', DH: 'MC Defensivo',
+    // MC Ofensivo / "10"
+    CAM: 'MC Ofensivo', AM: 'MC Ofensivo', OM: 'MC Ofensivo',
+    // Extremo
+    LW: 'Extremo', RW: 'Extremo', WF: 'Extremo',
+    AML: 'Extremo', AMR: 'Extremo', LM: 'Extremo', RM: 'Extremo',
+    // Mediocampista central (genérico)
+    M: 'Mediocampista', CM: 'Mediocampista', MF: 'Mediocampista', Midfielder: 'Mediocampista',
+    // Delantero
+    ST: 'Delantero', CF: 'Delantero', FW: 'Delantero',
+    ATT: 'Delantero', SS: 'Delantero',
+    F: 'Delantero', Attacker: 'Delantero',
   }
   return map[pos] ?? pos
 }

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { POSICIONES_FILTRO } from '@/utils/positions'
+import { POSICIONES_FILTRO, posicionEnEspanol } from '@/utils/positions'
 import { Input } from '@/components/ui/input'
 import { Select } from '@/components/ui/select'
 import { Button } from '@/components/ui/button'
@@ -115,7 +115,7 @@ export function BuscadorRefuerzos({
                 .sort((a, b) => a.name.localeCompare(b.name, 'es'))
                 .map((p) => (
                   <option key={p.playerId} value={p.playerId}>
-                    {p.name} — {p.position}
+                    {p.name} — {posicionEnEspanol(p.position)}
                     {p.number != null ? ` (#${p.number})` : ''}
                   </option>
                 ))}

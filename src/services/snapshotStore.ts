@@ -186,6 +186,19 @@ export async function getSnapshotTeamPlayers(
   }))
 }
 
+export async function getAllLeaguePlayers(
+  leagueId: number,
+  seasonKey: SeasonKey,
+): Promise<PlayerSeasonStats[]> {
+  const snap = await loadLeagueSnapshot(leagueId, seasonKey)
+  if (!snap) return []
+  return snap.players.map((p) => ({
+    ...p,
+    leagueId: p.leagueId ?? leagueId,
+    leagueLabel: p.leagueLabel ?? snap.label,
+  }))
+}
+
 export async function getSnapshotMillonariosPlayers(
   seasonKey: SeasonKey,
 ): Promise<PlayerSeasonStats[] | null> {

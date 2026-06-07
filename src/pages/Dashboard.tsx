@@ -2,6 +2,7 @@ import { ProximoPartido } from '@/components/Dashboard/ProximoPartido'
 import { UltimosPartidos } from '@/components/Dashboard/UltimosPartidos'
 import { EstadisticasTemporada } from '@/components/Dashboard/EstadisticasTemporada'
 import { AlertasTendencias } from '@/components/Dashboard/AlertasTendencias'
+import { AlineacionPredichaCard } from '@/components/Dashboard/AlineacionPredichaCard'
 import { DashboardSkeleton } from '@/components/shared/Loading'
 import { useNextFixture, useRecentFixtures } from '@/hooks/usePartidos'
 import { useLigaStandings } from '@/hooks/useStandings'
@@ -47,6 +48,7 @@ export default function Dashboard() {
         />
       </div>
       <AlertasTendencias />
+      <AlineacionPredichaCard />
       <UltimosPartidos fixtures={recent.data ?? []} />
     </div>
   )

@@ -18,7 +18,7 @@ export function Header() {
           <Menu className="h-5 w-5" />
         </button>
         <Link to="/" className="flex items-center gap-2 shrink-0">
-          <img src="/millonarios.svg" alt="" className="h-9 w-9" />
+          <img src="/Millonarios.png" alt="Millonarios FC" className="h-10 w-auto" />
           <span className="hidden font-bold tracking-tight sm:inline">
             MILLONARIOS ANALYTICS
           </span>

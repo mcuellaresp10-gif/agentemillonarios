@@ -19,7 +19,7 @@ export function SplashScreen({ onDone }: { onDone: () => void }) {
       role="status"
       aria-label="Cargando"
     >
-      <img src="/millonarios.svg" alt="Millonarios FC" className="h-24 w-24 mb-6 animate-pulse" />
+      <img src="/Millonarios.png" alt="Millonarios FC" className="h-24 w-24 mb-6 animate-pulse" />
       <h1 className="text-2xl font-bold tracking-wide">MILLONARIOS ANALYTICS</h1>
       <p className="mt-2 text-sm text-blue-200">Análisis táctico & scouting</p>
     </div>

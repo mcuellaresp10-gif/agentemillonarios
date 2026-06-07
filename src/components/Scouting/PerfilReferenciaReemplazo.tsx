@@ -41,7 +41,7 @@ export function PerfilReferenciaReemplazo({
   return (
     <div className="rounded-lg border border-amber-200/80 bg-amber-50/50 p-4 flex flex-col sm:flex-row gap-4">
       <img
-        src={player.photo || '/millonarios.svg'}
+        src={player.photo || '/Millonarios.png'}
         alt=""
         className="h-16 w-16 rounded-full border-2 border-mill-gold/60 object-cover shrink-0"
       />

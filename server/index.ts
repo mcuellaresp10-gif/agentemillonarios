@@ -6,6 +6,7 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 import { analyzeHandler } from './routes/analyze.js'
 import { marketStatusHandler, playerMarketHandler } from './routes/playerMarket.js'
+import { sofascoreMatchHandler, sofascorelinkHandler } from './routes/sofascore.js'
 import {
   configureTrustProxy,
   configureHelmet,
@@ -67,6 +68,8 @@ app.use(
 )
 
 app.post('/api/ai/analyze', aiRateLimiter, analyzeHandler)
+app.get('/api/sofascore/match', sofascoreMatchHandler)
+app.post('/api/sofascore/link', sofascorelinkHandler)
 app.get('/api/market/status', marketStatusHandler)
 app.get('/api/market/player', marketRateLimiter, playerMarketHandler)
 

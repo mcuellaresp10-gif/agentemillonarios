@@ -72,7 +72,7 @@ export function AccessGate({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-mill-blue/5 to-slate-50 p-6">
       <div className="w-full max-w-md rounded-xl border bg-white p-8 shadow-sm">
-        <img src="/millonarios.svg" alt="" className="h-14 w-14 mx-auto mb-4" />
+        <img src="/Millonarios.png" alt="" className="h-14 w-14 mx-auto mb-4" />
         <h1 className="text-xl font-bold text-mill-blue text-center">
           Millonarios Analytics
         </h1>

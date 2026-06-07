@@ -110,7 +110,7 @@ export function TablaScouting({
                   className="font-medium text-mill-blue hover:underline flex items-center gap-2"
                 >
                   <img
-                    src={p.photo || '/millonarios.svg'}
+                    src={p.photo || '/Millonarios.png'}
                     alt=""
                     className="h-7 w-7 rounded-full"
                     loading="lazy"

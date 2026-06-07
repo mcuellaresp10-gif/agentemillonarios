@@ -17,6 +17,7 @@ const GraficoRedComparativa = lazy(() =>
   }))
 )
 import { GeneradorAnalisisIA } from '@/components/Analisis/GeneradorAnalisisIA'
+import { ClasificacionLiga } from '@/components/shared/ClasificacionLiga'
 import { MapaPosicionCampo } from '@/components/shared/MapaPosicionCampo'
 import { CuadriculaStats } from '@/components/shared/CuadriculaStats'
 import { ValorMercadoCard } from '@/components/Scouting/ValorMercadoCard'
@@ -170,7 +171,7 @@ export default function ScoutingDetalle() {
       <div className="flex gap-4 items-start justify-between flex-wrap">
         <div className="flex gap-4 items-start">
           <img
-            src={candidato.photo || '/millonarios.svg'}
+            src={candidato.photo || '/Millonarios.png'}
             alt=""
             className="h-24 w-24 rounded-full object-cover border-2 border-mill-gold/40"
           />
@@ -289,6 +290,8 @@ export default function ScoutingDetalle() {
           </div>
         </Suspense>
       )}
+
+      <ClasificacionLiga player={candidato} seasonKey={seasonKey} />
 
       <section>
         <h2 className="text-lg font-semibold text-mill-blue mb-3">

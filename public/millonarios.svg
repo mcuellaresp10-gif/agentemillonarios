@@ -1,6 +1,42 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
-  <circle cx="50" cy="50" r="48" fill="#1E3A8A"/>
-  <circle cx="50" cy="50" r="38" fill="#FFFFFF"/>
-  <text x="50" y="58" text-anchor="middle" font-family="Arial,sans-serif" font-weight="bold" font-size="28" fill="#1E3A8A">M</text>
-  <circle cx="50" cy="50" r="48" fill="none" stroke="#FCD116" stroke-width="3"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 106">
+  <defs>
+    <path id="sh" d="M50 14 C57 6,71 5,79 11 C89 19,91 33,91 48 Q91 82,50 103 Q9 82,9 48 C9 33,11 19,21 11 C29 5,43 6,50 14 Z"/>
+    <clipPath id="cc"><use href="#sh"/></clipPath>
+  </defs>
+
+  <!-- Bordes en capas: dorado → navy → blanco → navy → azul (usando stroke-width decreciente) -->
+  <use href="#sh" fill="#3558c8" stroke="#b5913a" stroke-width="14"/>
+  <use href="#sh" fill="#3558c8" stroke="#1b2060" stroke-width="10"/>
+  <use href="#sh" fill="#3558c8" stroke="#ffffff" stroke-width="6"/>
+  <use href="#sh" fill="#3558c8" stroke="#1b2060" stroke-width="2.5"/>
+
+  <!-- Banda diagonal blanca -->
+  <polygon points="61,14 91,22 91,82 36,103 9,92 9,68"
+           fill="white" clip-path="url(#cc)"/>
+
+  <!-- Línea de separación navy sobre la diagonal -->
+  <line x1="61" y1="14" x2="18" y2="103"
+        stroke="#1b2060" stroke-width="1.2" clip-path="url(#cc)"/>
+
+  <!-- AROS ENTRELAZADOS -->
+  <!-- Aro derecho -->
+  <circle cx="44" cy="44" r="13.5" fill="none" stroke="white" stroke-width="3.2" clip-path="url(#cc)"/>
+  <!-- Aro izquierdo -->
+  <circle cx="30" cy="44" r="13.5" fill="none" stroke="white" stroke-width="3.2" clip-path="url(#cc)"/>
+  <!-- Simular entrelazado: tapar mitad derecha del aro izq con color de fondo -->
+  <path d="M30 30.5 A13.5 13.5 0 0 0 30 57.5"
+        stroke="#3558c8" stroke-width="4.5" fill="none" clip-path="url(#cc)"/>
+  <!-- Redibujar la mitad izquierda del aro izq encima -->
+  <path d="M30 30.5 A13.5 13.5 0 0 1 30 57.5"
+        stroke="white" stroke-width="3.2" fill="none" clip-path="url(#cc)"/>
+
+  <!-- M -->
+  <text x="64" y="89"
+        text-anchor="middle"
+        font-family="Georgia,'Times New Roman',serif"
+        font-weight="bold"
+        font-size="39"
+        stroke="#b5913a" stroke-width="1.2" paint-order="stroke"
+        fill="#3558c8"
+        clip-path="url(#cc)">M</text>
 </svg>

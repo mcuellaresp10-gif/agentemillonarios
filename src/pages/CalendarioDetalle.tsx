@@ -1,5 +1,9 @@
 import { useParams, Link } from 'react-router-dom'
+import { useState, useRef } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
 import { useFixture, useFixtureEvents, useFixtureLineups } from '@/hooks/usePartidos'
+import { useSofascoreMatch, linkSofascoreMatch } from '@/hooks/useSofascoreMatch'
+import { AnatomiaGol } from '@/components/CalendarioDetalle/AnatomiaGol'
 import { formatFixtureDate, formatScore } from '@/utils/formatters'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -13,6 +17,24 @@ export default function CalendarioDetalle() {
   const { data: fixture, isLoading } = useFixture(id)
   const { data: events } = useFixtureEvents(id)
   const { data: lineups } = useFixtureLineups(id)
+  const sofascore = useSofascoreMatch(id, fixture?.status ?? '')
+  const queryClient = useQueryClient()
+  const [linking, setLinking] = useState(false)
+  const [linkUrl, setLinkUrl] = useState('')
+  const [linkLoading, setLinkLoading] = useState(false)
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  async function handleLink() {
+    if (!linkUrl.trim()) return
+    setLinkLoading(true)
+    const ok = await linkSofascoreMatch(id, linkUrl.trim())
+    setLinkLoading(false)
+    if (ok) {
+      setLinking(false)
+      setLinkUrl('')
+      queryClient.invalidateQueries({ queryKey: ['sofascore', id] })
+    }
+  }
 
   if (isLoading || !fixture) return <DashboardSkeleton />
 
@@ -99,6 +121,63 @@ export default function CalendarioDetalle() {
           )}
         </CardContent>
       </Card>
+
+      {fixture.status === 'FT' && (
+        <Card>
+          <CardHeader>
+            <div className="flex items-center justify-between gap-2">
+              <CardTitle>Anatomía de goles · Millonarios</CardTitle>
+              {!sofascore.isLoading && (sofascore.data?.goals?.length ?? 0) === 0 && (
+                <button
+                  onClick={() => { setLinking(true); setTimeout(() => inputRef.current?.focus(), 50) }}
+                  className="text-xs text-mill-blue hover:underline"
+                >
+                  + Vincular Sofascore
+                </button>
+              )}
+            </div>
+          </CardHeader>
+          <CardContent>
+            {sofascore.isLoading && (
+              <p className="text-xs text-slate-400 animate-pulse">Cargando datos de Sofascore…</p>
+            )}
+            {(sofascore.data?.goals?.length ?? 0) > 0 && (
+              <AnatomiaGol goals={sofascore.data!.goals} />
+            )}
+            {!sofascore.isLoading && (sofascore.data?.goals?.length ?? 0) === 0 && !linking && (
+              <p className="text-xs text-slate-400">
+                Pega la URL del partido en Sofascore para ver la anatomía de los goles.
+              </p>
+            )}
+            {linking && (
+              <div className="flex gap-2 items-center mt-1">
+                <input
+                  ref={inputRef}
+                  type="url"
+                  placeholder="https://www.sofascore.com/football/match/..."
+                  value={linkUrl}
+                  onChange={(e) => setLinkUrl(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleLink()}
+                  className="flex-1 text-xs border border-slate-200 rounded px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-mill-blue"
+                />
+                <button
+                  onClick={handleLink}
+                  disabled={linkLoading || !linkUrl.trim()}
+                  className="text-xs bg-mill-blue text-white px-3 py-1.5 rounded disabled:opacity-50"
+                >
+                  {linkLoading ? '…' : 'Guardar'}
+                </button>
+                <button
+                  onClick={() => { setLinking(false); setLinkUrl('') }}
+                  className="text-xs text-slate-400 hover:text-slate-600"
+                >
+                  ✕
+                </button>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      )}
 
       <Card>
         <CardHeader>

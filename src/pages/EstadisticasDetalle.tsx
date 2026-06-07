@@ -5,10 +5,12 @@ import { usePlayerMatchHistory } from '@/hooks/usePlayerMatchHistory'
 import { GraficaRendimiento } from '@/components/Estadisticas/GraficaRendimiento'
 import { MapaPosicionCampo } from '@/components/shared/MapaPosicionCampo'
 import { CuadriculaStats } from '@/components/shared/CuadriculaStats'
+import { ClasificacionLiga } from '@/components/shared/ClasificacionLiga'
 import { ratingColor } from '@/utils/calculators'
 import { posicionEnEspanol } from '@/utils/positions'
 import { cn } from '@/lib/utils'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { defaultSeasonKey } from '@/config/scoutSnapshotSeasons'
 
 export default function EstadisticasDetalle() {
   const { playerId } = useParams()
@@ -71,7 +73,7 @@ export default function EstadisticasDetalle() {
     <div className="space-y-6 max-w-4xl">
       <div className="flex flex-col sm:flex-row gap-6">
         <img
-          src={player.photo || '/millonarios.svg'}
+          src={player.photo || '/Millonarios.png'}
           alt=""
           className="h-28 w-28 rounded-full object-cover border-4 border-mill-gold/50"
           loading="lazy"
@@ -125,6 +127,8 @@ export default function EstadisticasDetalle() {
           <CuadriculaStats player={player} />
         </CardContent>
       </Card>
+
+      <ClasificacionLiga player={player} seasonKey={defaultSeasonKey()} />
     </div>
   )
 }

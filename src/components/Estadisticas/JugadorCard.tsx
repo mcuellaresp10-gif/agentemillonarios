@@ -12,7 +12,7 @@ export function JugadorCard({ player }: { player: PlayerSeasonStats }) {
       <CardContent className="p-0">
         <div className="flex gap-3 p-4 pb-2">
           <img
-            src={player.photo || '/millonarios.svg'}
+            src={player.photo || '/Millonarios.png'}
             alt=""
             className="h-14 w-14 rounded-full object-cover bg-slate-100 shrink-0"
             loading="lazy"

@@ -280,6 +280,18 @@ function slimContext(contexto: Record<string, unknown>): Record<string, unknown>
   const fixture = contexto.fixture as Record<string, unknown> | undefined
   const h2h = contexto.h2h as unknown[] | undefined
   const jugadores = contexto.jugadores as unknown[] | undefined
+
+  // Scout report: has candidato/millonarios_actual, no fixture
+  if (contexto.candidato !== undefined) {
+    return {
+      candidato: contexto.candidato,
+      millonarios_actual: contexto.millonarios_actual ?? null,
+      comparativa: contexto.comparativa ?? null,
+      fuente: contexto.fuente ?? 'Scout DB',
+    }
+  }
+
+  // Previa / post: fixture-based
   return {
     fixture: fixture ?? null,
     h2h: Array.isArray(h2h) ? h2h.slice(0, 8) : [],
