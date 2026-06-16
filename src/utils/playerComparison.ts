@@ -68,7 +68,8 @@ const METRICS: MetricDef[] = [
     id: 'appearances',
     label: 'Partidos',
     categoryId: 'participacion',
-    getValue: (p) => p.appearances,
+    // appearances=0 con minutos>0 es dato faltante en snapshot, no cero real
+    getValue: (p) => (p.appearances ?? 0) > 0 ? p.appearances : p.minutes > 0 ? null : 0,
     format: (v) => v ?? '—',
     higherIsBetter: true,
     weightByBucket: { Portero: 10, Defensa: 8, Medio: 8, Ataque: 8, Default: 8 },
@@ -267,8 +268,12 @@ function normalizePair(
     return { normA: 0.5, normB: 0.5, winner: 'na' }
   }
 
-  let vA = a ?? 0
-  let vB = b ?? 0
+  // Dato faltante en un lado → neutral: no penalizar al jugador por datos ausentes
+  if (a == null) return { normA: 0.5, normB: 0.5, winner: 'na' }
+  if (b == null) return { normA: 0.5, normB: 0.5, winner: 'na' }
+
+  let vA = a
+  let vB = b
 
   if (!higherIsBetter) {
     const max = Math.max(vA, vB, 1)
