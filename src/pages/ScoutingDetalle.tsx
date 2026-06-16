@@ -244,7 +244,7 @@ export default function ScoutingDetalle() {
 
       <div>
         <label className="text-sm text-slate-500 block mb-1">
-          Comparar con jugador de Millonarios (misma posición)
+          Comparar con jugador de Millonarios
         </label>
         <Select
           value={compareId}
@@ -253,17 +253,11 @@ export default function ScoutingDetalle() {
           }
         >
           <option value="">Seleccionar jugador…</option>
-          {(millPlayers ?? [])
-            .filter((p) =>
-              posicionEnEspanol(p.position).includes(
-                posicionEnEspanol(candidato.position).slice(0, 4),
-              ),
-            )
-            .map((p) => (
-              <option key={p.playerId} value={p.playerId}>
-                {p.name} ({p.ratingAvg?.toFixed(1) ?? '—'})
-              </option>
-            ))}
+          {(millPlayers ?? []).map((p) => (
+            <option key={p.playerId} value={p.playerId}>
+              {p.name} · {posicionEnEspanol(p.position)} ({p.ratingAvg?.toFixed(1) ?? '—'})
+            </option>
+          ))}
         </Select>
       </div>
 

@@ -36,20 +36,30 @@ export default function Dashboard() {
         <h1 className="text-4xl font-bold text-mill-blue">Dashboard</h1>
         <p className="text-slate-500 mt-1">Resumen de Millonarios FC</p>
       </div>
-      <div className="grid gap-6 lg:grid-cols-3">
-        <ProximoPartido
-          fixture={next.data}
-          standings={standings.data ?? []}
-        />
-        <EstadisticasTemporada
-          fixtures={recent.data ?? []}
-          standings={standings.data ?? []}
-          teamStats={teamStats.data}
-        />
+      <div className="dashboard-grid">
+        <div className="area-proximo">
+          <ProximoPartido
+            fixture={next.data}
+            standings={standings.data ?? []}
+          />
+        </div>
+        <div className="area-stats">
+          <EstadisticasTemporada
+            fixtures={recent.data ?? []}
+            standings={standings.data ?? []}
+            teamStats={teamStats.data}
+          />
+        </div>
+        <div className="area-alertas">
+          <AlertasTendencias />
+        </div>
+        <div className="area-alineacion">
+          <AlineacionPredichaCard />
+        </div>
+        <div className="area-ultimos">
+          <UltimosPartidos fixtures={recent.data ?? []} />
+        </div>
       </div>
-      <AlertasTendencias />
-      <AlineacionPredichaCard />
-      <UltimosPartidos fixtures={recent.data ?? []} />
     </div>
   )
 }

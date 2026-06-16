@@ -72,3 +72,42 @@ body {
   padding-left: 1.25rem;
   list-style: disc;
 }
+
+.dashboard-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    "proximo"
+    "stats"
+    "alertas"
+    "alineacion"
+    "ultimos";
+}
+
+@media (min-width: 1024px) {
+  .dashboard-grid {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-areas:
+      "proximo proximo stats"
+      "alertas alertas stats"
+      "alineacion alineacion alineacion"
+      "ultimos ultimos ultimos";
+  }
+}
+
+.area-proximo { grid-area: proximo; }
+.area-alertas { grid-area: alertas; }
+.area-alineacion { grid-area: alineacion; }
+.area-ultimos { grid-area: ultimos; }
+
+.area-stats {
+  grid-area: stats;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.area-stats > * {
+  flex: 1;
+}
