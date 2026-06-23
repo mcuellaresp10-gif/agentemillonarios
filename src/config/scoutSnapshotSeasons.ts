@@ -18,6 +18,7 @@ export const EUROPEAN_STYLE_LEAGUE_IDS = new Set([
   253, // MLS
   307, // Saudi Pro League
   203, // Süper Lig
+  235, // Rusia — Premier League
 ])
 
 const API_SEASON_BY_REGION: Record<SeasonKey, { european: number; default: number }> = {

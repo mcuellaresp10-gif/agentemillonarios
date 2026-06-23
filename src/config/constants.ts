@@ -66,6 +66,7 @@ export const COLOMBIANOS_EXTERIOR_LEAGUES: ScoutLeagueConfig[] = [
   { id: 281, label: 'Perú — Liga 1', short: 'PER' },
   { id: 307, label: 'Arabia Saudita — Pro League', short: 'KSA' },
   { id: 203, label: 'Turquía — Süper Lig', short: 'TUR' },
+  { id: 235, label: 'Rusia — Premier League', short: 'RUS' },
 ]
 
 export const COMPETITIONS = {
