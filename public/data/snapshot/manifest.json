@@ -445,6 +445,26 @@
       "path": "leagues/299-2025-2026.json",
       "teamCount": 14,
       "playerCount": 160
+    },
+    {
+      "leagueId": 235,
+      "label": "Rusia — Premier League",
+      "short": "RUS",
+      "seasonKey": "2024-2025",
+      "apiSeason": 2024,
+      "path": "leagues/235-2024-2025.json",
+      "teamCount": 18,
+      "playerCount": 312
+    },
+    {
+      "leagueId": 235,
+      "label": "Rusia — Premier League",
+      "short": "RUS",
+      "seasonKey": "2025-2026",
+      "apiSeason": 2025,
+      "path": "leagues/235-2025-2026.json",
+      "teamCount": 18,
+      "playerCount": 497
     }
   ],
   "millonarios": [
