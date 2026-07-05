@@ -1,12 +1,15 @@
 import { useState, useMemo } from 'react'
 import { useMillonariosPlayers } from '@/hooks/useJugadores'
+import { useRecentFixtures } from '@/hooks/usePartidos'
 import { JugadorCard } from '@/components/Estadisticas/JugadorCard'
+import { EstadisticasAgregadas } from '@/components/Estadisticas/EstadisticasAgregadas'
 import { FiltrosJugadores } from '@/components/shared/FiltrosJugadores'
 import { filterPlayers, sortPlayers, type SortField } from '@/utils/filters'
 import { DashboardSkeleton } from '@/components/shared/Loading'
 
 export default function Estadisticas() {
   const { data: players, isLoading } = useMillonariosPlayers()
+  const recent = useRecentFixtures(20)
   const [position, setPosition] = useState('all')
   const [minRating, setMinRating] = useState(0)
   const [sortField, setSortField] = useState<SortField>('ratingAvg')
@@ -38,6 +41,7 @@ export default function Estadisticas() {
           Plantilla Millonarios FC · datos consolidados de temporada
         </p>
       </div>
+      <EstadisticasAgregadas fixtures={recent.data ?? []} />
       <FiltrosJugadores
         position={position}
         onPosition={setPosition}

@@ -18,6 +18,8 @@
     "migrate:scout": "tsx --tsconfig tsconfig.app.json scripts/migrate-snapshot-to-sqlite.ts",
     "export:scout": "tsx --tsconfig tsconfig.app.json scripts/export-scout-db.ts",
     "lint": "eslint .",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "preview": "npm run build && npm run start:prod",
     "start:prod": "tsx --tsconfig tsconfig.server.json server/index.ts --prod"
   },
@@ -37,6 +39,7 @@
     "express": "^5.2.1",
     "express-rate-limit": "^8.5.2",
     "helmet": "^8.2.0",
+    "html-to-image": "^1.11.13",
     "http-proxy-middleware": "^4.0.0",
     "idb-keyval": "^6.2.4",
     "lucide-react": "^1.17.0",
@@ -69,6 +72,7 @@
     "tailwindcss": "^4.3.0",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.59.2",
-    "vite": "^8.0.12"
+    "vite": "^8.0.12",
+    "vitest": "^4.1.9"
   }
 }

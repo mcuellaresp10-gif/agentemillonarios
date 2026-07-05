@@ -1,18 +1,21 @@
 import { Link } from 'react-router-dom'
-import type { Fixture } from '@/types'
-import type { StandingRow } from '@/types'
+import type { Fixture, StandingRow } from '@/types'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { formatFixtureDate } from '@/utils/formatters'
 import { difficultyRating } from '@/utils/calculators'
 import { hasAnalisis } from '@/services/analysisAI'
+import { MatchSimulationPreview } from '@/components/Dashboard/MatchSimulationPreview'
+import type { PlayerSeasonStats } from '@/types'
 
 export function ProximoPartido({
   fixture,
   standings,
+  millPlayers,
 }: {
   fixture: Fixture | null | undefined
   standings: StandingRow[]
+  millPlayers?: PlayerSeasonStats[]
 }) {
   if (!fixture) {
     return (
@@ -57,6 +60,12 @@ export function ProximoPartido({
           {fixture.venue && `${fixture.venue}`}
           {fixture.city && ` · ${fixture.city}`}
         </p>
+        <MatchSimulationPreview
+          fixture={fixture}
+          standings={standings}
+          millPlayers={millPlayers}
+          compact
+        />
         {hasPre && <Badge variant="ai">Análisis previo disponible</Badge>}
         <Link
           to={`/analisis/${fixture.id}`}

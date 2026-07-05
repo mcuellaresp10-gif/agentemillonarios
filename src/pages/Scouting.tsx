@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from 'react'
+import { useState, useMemo, useCallback, lazy, Suspense } from 'react'
 import {
   BuscadorRefuerzos,
   type ScoutSearchMode,
@@ -39,6 +39,13 @@ import { useCandidatesEnrichment } from '@/hooks/useCandidatesEnrichment'
 import { useSnapshotGeneratedAt } from '@/hooks/useSnapshotMeta'
 import { format } from 'date-fns'
 import { es } from 'date-fns/locale'
+import { DashboardSkeleton } from '@/components/shared/Loading'
+
+const ScoutingExplorer = lazy(() =>
+  import('@/components/Scouting/ScoutingExplorer').then((m) => ({
+    default: m.ScoutingExplorer,
+  })),
+)
 
 export default function Scouting() {
   const [seasonKey, setSeasonKey] = useState<SeasonKey>(defaultSeasonKey())
@@ -57,6 +64,7 @@ export default function Scouting() {
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('desc')
 
   const isColombianosMode = mode === 'colombianos-exterior'
+  const isExplorerMode = mode === 'explorador'
   const activeLeagues: ScoutLeagueConfig[] = isColombianosMode
     ? COLOMBIANOS_EXTERIOR_LEAGUES
     : [...SCOUT_LEAGUES]
@@ -91,7 +99,7 @@ export default function Scouting() {
     seasonKey,
   )
   const { data: scoutPool, isLoading: loadingScoutPool, refetch: refetchScoutPool } =
-    useScoutPool(poolEntries, poolActive && mode === 'reemplazo', seasonKey)
+    useScoutPool(poolEntries, poolActive && (mode === 'reemplazo' || isExplorerMode), seasonKey)
   const {
     data: colombianosPool,
     isLoading: loadingColombianosPool,
@@ -110,16 +118,17 @@ export default function Scouting() {
   )
 
   const rawPool = useMemo(() => {
-    if (mode === 'reemplazo') return scoutPool ?? []
+    if (mode === 'reemplazo' || isExplorerMode) return scoutPool ?? []
     if (isColombianosMode) return colombianosPool ?? []
     return teamPlayers ?? []
-  }, [mode, isColombianosMode, scoutPool, colombianosPool, teamPlayers])
+  }, [mode, isExplorerMode, isColombianosMode, scoutPool, colombianosPool, teamPlayers])
 
   const showResults = useMemo(() => {
     if (!searched || loadingTeams) return false
     if (mode === 'equipo') return activeTeam != null
+    if (isExplorerMode) return poolActive && !loadingPool && rawPool.length > 0
     return poolActive && !loadingPool
-  }, [searched, loadingTeams, mode, activeTeam, poolActive, loadingPool])
+  }, [searched, loadingTeams, mode, activeTeam, poolActive, loadingPool, isExplorerMode, rawPool.length])
 
   const fitScores = useMemo(() => {
     if (!showResults || !millPlayers?.length || !rawPool.length) return undefined
@@ -220,6 +229,12 @@ export default function Scouting() {
       refetchScoutPool()
       return
     }
+    if (isExplorerMode) {
+      setPoolActive(true)
+      setSearched(true)
+      refetchScoutPool()
+      return
+    }
     if (isColombianosMode) {
       setPoolActive(true)
       setSearched(true)
@@ -256,7 +271,7 @@ export default function Scouting() {
 
   const isLoading =
     loadingTeams ||
-    (mode === 'equipo' ? loadingTeam : loadingPool)
+    (mode === 'equipo' ? loadingTeam : mode === 'explorador' || mode === 'reemplazo' ? loadingPool : loadingPool)
 
   const leagueScopeLabel = filters.leagueId
     ? activeLeagues.find((l) => l.id === filters.leagueId)?.label
@@ -315,6 +330,12 @@ export default function Scouting() {
           Filtra por liga o equipo y pulsa <strong>Buscar</strong>.
         </p>
       )}
+      {isExplorerMode && !searched && (
+        <p className="text-sm text-slate-500">
+          Elige liga (opcional) y pulsa <strong>Buscar</strong> para abrir el explorador visual con
+          scatter y radar por posición.
+        </p>
+      )}
       {isLoading && (
         <p className="text-slate-500">
           {isColombianosMode
@@ -324,7 +345,17 @@ export default function Scouting() {
               : 'Cargando jugadores…'}
         </p>
       )}
-      {showResults && (
+      {showResults && isExplorerMode && (
+        <Suspense fallback={<DashboardSkeleton />}>
+          <ScoutingExplorer
+            players={rawPool}
+            millonariosPlayers={millPlayers ?? []}
+            isLoading={loadingPool}
+            seasonKey={seasonKey}
+          />
+        </Suspense>
+      )}
+      {showResults && !isExplorerMode && (
         <>
           <p className="text-sm text-slate-600">
             {filtered.length}{' '}

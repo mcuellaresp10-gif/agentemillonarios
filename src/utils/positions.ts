@@ -77,6 +77,30 @@ export const ORDENAR_LABELS: Record<string, string> = {
   marketValueEur: 'Valor mercado',
 }
 
+/** Código G/D/M/F para perfiles de scouting. */
+export function positionToCode(pos: string): 'G' | 'D' | 'M' | 'F' {
+  const p = pos.toLowerCase()
+  if (p.includes('goal') || p.includes('porter') || p === 'g' || p === 'gk') return 'G'
+  if (
+    p.includes('def') ||
+    p === 'd' ||
+    p.includes('lateral') ||
+    p.includes('central') ||
+    p.includes('back')
+  )
+    return 'D'
+  if (
+    p.includes('att') ||
+    p === 'f' ||
+    p.includes('delant') ||
+    p.includes('strik') ||
+    p.includes('forward') ||
+    p.includes('extremo')
+  )
+    return 'F'
+  return 'M'
+}
+
 export function posicionEnEspanol(pos: string): string {
   const map: Record<string, string> = {
     // Portero

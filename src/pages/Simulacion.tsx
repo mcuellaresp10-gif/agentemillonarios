@@ -25,6 +25,12 @@ import { Badge } from '@/components/ui/badge'
 import { DashboardSkeleton } from '@/components/shared/Loading'
 import { cn } from '@/lib/utils'
 import type { OpponentH2H } from '@/hooks/useAllH2H'
+import { useNextFixture } from '@/hooks/usePartidos'
+import { useLigaStandings } from '@/hooks/useStandings'
+import { useMillonariosPlayers } from '@/hooks/useJugadores'
+import { MatchSimulationPreview } from '@/components/Dashboard/MatchSimulationPreview'
+
+type SimTab = 'temporada' | 'partido'
 
 // ─── Historial de Millonarios ─────────────────────────────────────────────────
 
@@ -178,8 +184,12 @@ function H2HRow({ opp, isExtra }: { opp: OpponentH2H; isExtra: boolean }) {
 // ─── Página principal ─────────────────────────────────────────────────────────
 
 export default function Simulacion() {
+  const [tab, setTab] = useState<SimTab>('temporada')
   const [scenario, setScenario] = useState<SimScenario>('realistic')
   const { result, isLoading, isNewSeason, h2hData, santaFeId } = useMonteCarlo(scenario)
+  const next = useNextFixture()
+  const standings = useLigaStandings()
+  const millPlayers = useMillonariosPlayers()
 
   if (isLoading) return <DashboardSkeleton />
 
@@ -216,6 +226,45 @@ export default function Simulacion() {
         </div>
       </div>
 
+      <div className="flex rounded-lg border border-slate-200 overflow-hidden text-sm w-fit">
+        <button
+          type="button"
+          onClick={() => setTab('partido')}
+          className={cn(
+            'px-4 py-2 transition-colors',
+            tab === 'partido' ? 'bg-mill-blue text-white' : 'bg-white text-slate-600 hover:bg-slate-50',
+          )}
+        >
+          Próximo partido
+        </button>
+        <button
+          type="button"
+          onClick={() => setTab('temporada')}
+          className={cn(
+            'px-4 py-2 transition-colors',
+            tab === 'temporada' ? 'bg-mill-blue text-white' : 'bg-white text-slate-600 hover:bg-slate-50',
+          )}
+        >
+          Temporada completa
+        </button>
+      </div>
+
+      {tab === 'partido' && (
+        <div className="max-w-lg">
+          {next.data ? (
+            <MatchSimulationPreview
+              fixture={next.data}
+              standings={standings.data ?? []}
+              millPlayers={millPlayers.data}
+            />
+          ) : (
+            <p className="text-slate-500">No hay próximo partido programado.</p>
+          )}
+        </div>
+      )}
+
+      {tab === 'temporada' && (
+      <>
       {/* ── Banner nueva temporada ── */}
       {isNewSeason && (
         <div className="flex items-start gap-3 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3">
@@ -581,6 +630,8 @@ export default function Simulacion() {
           </div>
         </CardContent>
       </Card>
+      </>
+      )}
     </div>
   )
 }

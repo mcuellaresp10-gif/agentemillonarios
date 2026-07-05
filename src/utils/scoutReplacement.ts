@@ -1,5 +1,6 @@
 import type { PlayerSeasonStats, ScoutCandidate } from '@/types'
 import { matchesPositionFilter, posicionEnEspanol } from '@/utils/positions'
+import { buildScoutingProfiles, getScoutingPosition } from '@/utils/scoutingMetrics'
 
 function num(v: number | null | undefined, fallback = 0): number {
   return v != null && Number.isFinite(v) ? v : fallback
@@ -83,6 +84,39 @@ export function replacementFitScore(
   }
 
   return Math.round(Math.min(100, score))
+}
+
+/** Bonus 0–10 por índice compuesto de scouting (si hay minutos suficientes) */
+export function compositeFitBonus(
+  candidate: ScoutCandidate,
+  target: PlayerSeasonStats,
+  pool: ScoutCandidate[],
+): number {
+  if (pool.length < 3) return 0
+  const profiles = buildScoutingProfiles([...pool, candidate, target])
+  const cProfile = profiles.find((p) => p.playerId === candidate.playerId)
+  const tProfile = profiles.find((p) => p.playerId === target.playerId)
+  if (!cProfile || !tProfile) return 0
+  const pos = getScoutingPosition(candidate)
+  const cIdx =
+    pos === 'F'
+      ? cProfile.metrics.finishingIndex
+      : pos === 'D'
+        ? cProfile.metrics.defensiveIndex
+        : pos === 'G'
+          ? cProfile.metrics.goalkeeperIndex
+          : cProfile.metrics.offensiveIndex
+  const tIdx =
+    pos === 'F'
+      ? tProfile.metrics.finishingIndex
+      : pos === 'D'
+        ? tProfile.metrics.defensiveIndex
+        : pos === 'G'
+          ? tProfile.metrics.goalkeeperIndex
+          : tProfile.metrics.offensiveIndex
+  if (tIdx <= 0) return 0
+  const ratio = cIdx / tIdx
+  return Math.min(10, Math.max(0, ratio >= 1 ? 10 : ratio * 10))
 }
 
 export function fitScoreLabel(score: number): string {

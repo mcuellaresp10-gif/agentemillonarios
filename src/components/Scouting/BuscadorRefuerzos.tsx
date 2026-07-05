@@ -10,7 +10,7 @@ import { SCOUT_LEAGUES, type ScoutLeagueConfig } from '@/config/constants'
 import { SEASON_KEYS, seasonKeyLabel } from '@/config/scoutSnapshotSeasons'
 import type { SeasonKey } from '@/types/scoutSnapshot'
 
-export type ScoutSearchMode = 'equipo' | 'reemplazo' | 'colombianos-exterior'
+export type ScoutSearchMode = 'equipo' | 'reemplazo' | 'colombianos-exterior' | 'explorador'
 
 export function BuscadorRefuerzos({
   mode,
@@ -92,6 +92,17 @@ export function BuscadorRefuerzos({
             }`}
           >
             Colombianos exterior
+          </button>
+          <button
+            type="button"
+            onClick={() => onModeChange('explorador')}
+            className={`px-3 py-1.5 transition-colors ${
+              mode === 'explorador'
+                ? 'bg-mill-blue text-white'
+                : 'bg-white text-slate-600 hover:bg-slate-50'
+            }`}
+          >
+            Explorador
           </button>
         </div>
       </div>

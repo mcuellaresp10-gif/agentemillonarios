@@ -94,9 +94,19 @@ Plan Starter: **100 requests/día**. La app:
 | `/analisis` | Análisis previo/post con IA |
 | `/h2h` | Head to head vs rivales |
 | `/estadisticas` | Plantilla Millonarios |
-| `/scouting` | Refuerzos multi-liga · valor TM y fichas de traspaso |
+| `/scouting` | Refuerzos multi-liga · **Explorador** (scatter/radar) · valor TM |
 | `/tabla` | Posiciones Liga / copas |
 | `/buscar` | Búsqueda global |
+| `/simulacion` | Monte Carlo temporada + **simulación Poisson por partido** |
+| `/agente` | Chat IA con contexto de plantilla, tabla y próximo partido |
+
+## Tests
+
+```bash
+npm test
+```
+
+Vitest cubre métricas de scouting, Monte Carlo, fit score y simulación Poisson.
 
 ## Stack
 

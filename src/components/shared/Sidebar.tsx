@@ -9,21 +9,38 @@ import {
   Table2,
   Brain,
   TrendingUp,
+  MessageCircle,
   X,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useAppStore } from '@/store/appStore'
 
-const links = [
-  { to: '/', label: 'Dashboard', icon: LayoutDashboard },
-  { to: '/calendario', label: 'Calendario', icon: Calendar },
-  { to: '/analisis', label: 'Análisis', icon: Brain },
-  { to: '/h2h', label: 'H2H', icon: Swords },
-  { to: '/estadisticas', label: 'Estadísticas', icon: BarChart3 },
-  { to: '/scouting', label: 'Scouting', icon: Search },
-  { to: '/tabla', label: 'Tabla', icon: Table2 },
-  { to: '/buscar', label: 'Búsqueda', icon: Users },
-  { to: '/simulacion', label: 'Simulación', icon: TrendingUp },
+const sections = [
+  {
+    label: 'Club',
+    links: [
+      { to: '/', label: 'Dashboard', icon: LayoutDashboard },
+      { to: '/calendario', label: 'Calendario', icon: Calendar },
+      { to: '/estadisticas', label: 'Estadísticas', icon: BarChart3 },
+      { to: '/tabla', label: 'Tabla', icon: Table2 },
+    ],
+  },
+  {
+    label: 'Análisis',
+    links: [
+      { to: '/analisis', label: 'Análisis IA', icon: Brain },
+      { to: '/h2h', label: 'H2H', icon: Swords },
+      { to: '/simulacion', label: 'Simulación', icon: TrendingUp },
+    ],
+  },
+  {
+    label: 'Mercado',
+    links: [
+      { to: '/scouting', label: 'Scouting', icon: Search },
+      { to: '/buscar', label: 'Búsqueda', icon: Users },
+      { to: '/agente', label: 'Agente', icon: MessageCircle },
+    ],
+  },
 ]
 
 export function Sidebar() {
@@ -56,25 +73,34 @@ export function Sidebar() {
             <X className="h-5 w-5" />
           </button>
         </div>
-        <nav className="flex flex-col gap-1 p-3" aria-label="Principal">
-          {links.map(({ to, label, icon: Icon }) => (
-            <NavLink
-              key={to}
-              to={to}
-              end={to === '/'}
-              onClick={() => setOpen(false)}
-              className={({ isActive }) =>
-                cn(
-                  'flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium transition-colors duration-200',
-                  isActive
-                    ? 'bg-mill-blue text-white'
-                    : 'text-slate-300 hover:bg-slate-800 hover:text-white',
-                )
-              }
-            >
-              <Icon className="h-4 w-4 shrink-0" />
-              {label}
-            </NavLink>
+        <nav className="flex flex-col gap-4 p-3" aria-label="Principal">
+          {sections.map((section) => (
+            <div key={section.label}>
+              <p className="px-3 mb-1 text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+                {section.label}
+              </p>
+              <div className="flex flex-col gap-0.5">
+                {section.links.map(({ to, label, icon: Icon }) => (
+                  <NavLink
+                    key={to}
+                    to={to}
+                    end={to === '/'}
+                    onClick={() => setOpen(false)}
+                    className={({ isActive }) =>
+                      cn(
+                        'flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium transition-colors duration-200',
+                        isActive
+                          ? 'bg-mill-blue text-white'
+                          : 'text-slate-300 hover:bg-slate-800 hover:text-white',
+                      )
+                    }
+                  >
+                    <Icon className="h-4 w-4 shrink-0" />
+                    {label}
+                  </NavLink>
+                ))}
+              </div>
+            </div>
           ))}
         </nav>
       </aside>

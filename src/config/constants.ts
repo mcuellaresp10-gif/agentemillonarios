@@ -49,6 +49,7 @@ export type ScoutLeagueId = (typeof SCOUT_LEAGUES)[number]['id']
 /** Ligas fuera de Colombia donde suelen jugar colombianos en el exterior */
 export const COLOMBIANOS_EXTERIOR_LEAGUES: ScoutLeagueConfig[] = [
   { id: 39, label: 'Inglaterra — Premier League', short: 'ENG' },
+  { id: 40, label: 'Inglaterra — Championship', short: 'CHM' },
   { id: 140, label: 'España — La Liga', short: 'ESP' },
   { id: 135, label: 'Italia — Serie A', short: 'ITA' },
   { id: 78, label: 'Alemania — Bundesliga', short: 'GER' },

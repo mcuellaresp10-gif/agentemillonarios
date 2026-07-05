@@ -23,6 +23,7 @@ const ScoutingDetalle = lazy(() => import('@/pages/ScoutingDetalle'))
 const Tabla = lazy(() => import('@/pages/Tabla'))
 const Buscar = lazy(() => import('@/pages/Buscar'))
 const Simulacion = lazy(() => import('@/pages/Simulacion'))
+const Agente = lazy(() => import('@/pages/Agente'))
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -72,6 +73,7 @@ export default function App() {
             <Route path="tabla" element={<PageWrapper><Tabla /></PageWrapper>} />
             <Route path="buscar" element={<PageWrapper><Buscar /></PageWrapper>} />
             <Route path="simulacion" element={<PageWrapper><Simulacion /></PageWrapper>} />
+            <Route path="agente" element={<PageWrapper><Agente /></PageWrapper>} />
           </Route>
         </Routes>
       </BrowserRouter>

@@ -101,6 +101,19 @@ body {
 .area-alineacion { grid-area: alineacion; }
 .area-ultimos { grid-area: ultimos; }
 
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-in {
+  animation: fade-in 0.35s ease-out;
+}
+
+.fade-in {
+  animation: fade-in 0.35s ease-out;
+}
+
 .area-stats {
   grid-area: stats;
   display: flex;
